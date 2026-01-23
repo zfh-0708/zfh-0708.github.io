@@ -1,11 +1,1197 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <title>我的网站</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>市场大亨 - 经济模拟经营游戏</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --radius: 10px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--secondary), var(--success));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            color: var(--dark);
+            opacity: 0.7;
+            font-size: 1.1rem;
+        }
+
+        .game-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .game-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .main-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h2 i {
+            color: var(--secondary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: var(--light);
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--secondary);
+            margin: 5px 0;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--dark);
+            opacity: 0.7;
+        }
+
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .products-table th {
+            background: var(--primary);
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .products-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .products-table tr:hover {
+            background: var(--light);
+        }
+
+        .price {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .price-up {
+            color: var(--success);
+        }
+
+        .price-down {
+            color: var(--danger);
+        }
+
+        .price-stable {
+            color: var(--warning);
+        }
+
+        .trend-indicator {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            margin-left: 5px;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+        }
+
+        .trend-up {
+            border-bottom: 8px solid var(--success);
+        }
+
+        .trend-down {
+            border-top: 8px solid var(--danger);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #219653;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            padding: 10px;
+            margin: 8px 0;
+            background: var(--light);
+            border-radius: 6px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .history-item.success {
+            border-left-color: var(--success);
+        }
+
+        .history-item.danger {
+            border-left-color: var(--danger);
+        }
+
+        .history-item.warning {
+            border-left-color: var(--warning);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--light);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--success));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .notification.error {
+            border-left: 4px solid var(--danger);
+        }
+
+        .notification.info {
+            border-left: 4px solid var(--secondary);
+        }
+
+        .day-counter {
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .inventory-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .inventory-item:last-child {
+            border-bottom: none;
+        }
+
+        .inventory-name {
+            font-weight: 500;
+        }
+
+        .inventory-qty {
+            font-weight: bold;
+            color: var(--secondary);
+        }
+
+        .inventory-value {
+            color: var(--success);
+            font-weight: 500;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .game-over {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .game-over-content {
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .game-over h2 {
+            color: var(--danger);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .game-over p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+
+        .achievement-badge {
+            display: inline-block;
+            background: var(--warning);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 5px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: var(--dark);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <h1>网站正在建设中！</h1>
-    <p>这是我的第一个GitHub Pages网站。</p>
-    <img src="images/photo1.jpg" alt="露珠" width="500">
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-chart-line"></i> 市场大亨</h1>
+            <p class="subtitle">模拟经营游戏 - 低买高卖，成为市场主宰！</p>
+        </header>
+
+        <div class="game-container">
+            <div class="main-panel">
+                <!-- 玩家状态面板 -->
+                <div class="card">
+                    <h2><i class="fas fa-user-tie"></i> 玩家状态</h2>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">现金</div>
+                            <div class="stat-value" id="cash">¥10,000</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">总资产</div>
+                            <div class="stat-value" id="total-assets">¥10,000</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">游戏天数</div>
+                            <div class="day-counter" id="day">第 1 天</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">声望</div>
+                            <div class="stat-value" id="reputation">50</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-bar" style="width: 10%;"></div>
+                    </div>
+                    <div style="text-align: center; margin-top: 10px; font-size: 0.9rem; color: var(--dark); opacity: 0.7;">
+                        目标：¥100,000
+                    </div>
+                </div>
+
+                <!-- 市场商品面板 -->
+                <div class="card">
+                    <h2><i class="fas fa-store"></i> 当前市场</h2>
+                    <table class="products-table">
+                        <thead>
+                            <tr>
+                                <th>商品</th>
+                                <th>当前价格</th>
+                                <th>趋势</th>
+                                <th>库存</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="market-table">
+                            <!-- 商品数据将通过JavaScript动态生成 -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 库存面板 -->
+                <div class="card">
+                    <h2><i class="fas fa-warehouse"></i> 我的库存</h2>
+                    <div id="inventory-list">
+                        <!-- 库存数据将通过JavaScript动态生成 -->
+                    </div>
+                    <div style="text-align: center; margin-top: 20px; color: var(--dark); opacity: 0.7; font-size: 0.9rem;">
+                        总库存价值: <span id="inventory-value">¥0</span>
+                    </div>
+                </div>
+
+                <!-- 交易历史面板 -->
+                <div class="card">
+                    <h2><i class="fas fa-history"></i> 交易记录</h2>
+                    <div class="history-list" id="history-list">
+                        <!-- 交易记录将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 侧边栏面板 -->
+            <div class="sidebar">
+                <!-- 操作面板 -->
+                <div class="card">
+                    <h2><i class="fas fa-handshake"></i> 交易操作</h2>
+                    <div id="trade-form">
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;">选择商品</label>
+                            <select id="product-select" style="width: 100%; padding: 12px; border: 2px solid #ecf0f1; border-radius: 8px; font-size: 1rem;">
+                                <!-- 商品选项将通过JavaScript动态生成 -->
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <input type="number" id="trade-quantity" min="1" value="1" placeholder="数量">
+                        </div>
+                        <div style="margin: 15px 0; text-align: center;">
+                            <div style="font-size: 1.1rem; margin-bottom: 5px;">预估总价: <span id="estimated-price">¥0</span></div>
+                            <div style="font-size: 0.9rem; color: #7f8c8d;">可用现金: <span id="available-cash">¥10,000</span></div>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-success" id="buy-btn">
+                                <i class="fas fa-shopping-cart"></i> 买入
+                            </button>
+                            <button class="btn btn-danger" id="sell-btn">
+                                <i class="fas fa-money-bill-wave"></i> 卖出
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 市场事件面板 -->
+                <div class="card">
+                    <h2><i class="fas fa-bullhorn"></i> 市场事件</h2>
+                    <div id="events-list">
+                        <!-- 市场事件将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 游戏控制面板 -->
+                <div class="card">
+                    <h2><i class="fas fa-gamepad"></i> 游戏控制</h2>
+                    <button class="btn btn-primary" id="next-day-btn" style="width: 100%; margin-bottom: 10px;">
+                        <i class="fas fa-forward"></i> 进入下一天
+                    </button>
+                    <button class="btn" id="save-game-btn" style="width: 100%; margin-bottom: 10px; background: #95a5a6; color: white;">
+                        <i class="fas fa-save"></i> 保存游戏
+                    </button>
+                    <button class="btn btn-danger" id="reset-game-btn" style="width: 100%;">
+                        <i class="fas fa-redo"></i> 重新开始
+                    </button>
+                </div>
+
+                <!-- 成就面板 -->
+                <div class="card">
+                    <h2><i class="fas fa-trophy"></i> 成就</h2>
+                    <div id="achievements">
+                        <span class="achievement-badge">新手商人</span>
+                        <!-- 成就将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2023 市场大亨 - 经济模拟经营游戏 | 低买高卖，理性投资！</p>
+        </footer>
+    </div>
+
+    <!-- 通知弹窗 -->
+    <div class="notification" id="notification">
+        <i class="fas fa-info-circle"></i>
+        <div id="notification-message">消息内容</div>
+    </div>
+
+    <!-- 游戏结束弹窗 -->
+    <div class="game-over" id="game-over">
+        <div class="game-over-content">
+            <h2><i class="fas fa-skull-crossbones"></i> 游戏结束</h2>
+            <p id="game-over-message">您的现金已用尽！</p>
+            <button class="btn btn-primary" id="restart-btn">
+                <i class="fas fa-play"></i> 重新开始游戏
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 游戏状态变量
+        const gameState = {
+            cash: 10000,
+            day: 1,
+            reputation: 50,
+            inventory: {},
+            totalValue: 0,
+            history: [],
+            achievements: ['newbie_trader'],
+            marketEvents: []
+        };
+
+        // 商品数据
+        const products = [
+            { id: 'gold', name: '黄金', basePrice: 500, volatility: 0.15, icon: 'fa-gem' },
+            { id: 'oil', name: '原油', basePrice: 100, volatility: 0.25, icon: 'fa-gas-pump' },
+            { id: 'grain', name: '谷物', basePrice: 30, volatility: 0.2, icon: 'fa-wheat-awn' },
+            { id: 'tech', name: '科技股', basePrice: 200, volatility: 0.3, icon: 'fa-microchip' },
+            { id: 'real_estate', name: '房地产', basePrice: 800, volatility: 0.1, icon: 'fa-building' },
+            { id: 'crypto', name: '加密货币', basePrice: 50, volatility: 0.4, icon: 'fa-bitcoin-sign' }
+        ];
+
+        // 市场事件
+        const marketEvents = [
+            { 
+                name: '经济繁荣', 
+                effect: { type: 'multiplier', value: 1.3, duration: 3 },
+                description: '经济蓬勃发展，所有商品价格上涨30%！',
+                icon: 'fa-chart-line',
+                color: '#27ae60'
+            },
+            { 
+                name: '经济衰退', 
+                effect: { type: 'multiplier', value: 0.8, duration: 3 },
+                description: '经济衰退，所有商品价格下跌20%',
+                icon: 'fa-chart-line-down',
+                color: '#e74c3c'
+            },
+            { 
+                name: '黄金热潮', 
+                effect: { type: 'specific', product: 'gold', multiplier: 1.5, duration: 2 },
+                description: '黄金价格飙升50%！',
+                icon: 'fa-gem',
+                color: '#f39c12'
+            },
+            { 
+                name: '原油危机', 
+                effect: { type: 'specific', product: 'oil', multiplier: 1.8, duration: 2 },
+                description: '原油供应紧张，价格上涨80%',
+                icon: 'fa-gas-pump',
+                color: '#e74c3c'
+            },
+            { 
+                name: '科技突破', 
+                effect: { type: 'specific', product: 'tech', multiplier: 1.6, duration: 3 },
+                description: '科技行业重大突破，科技股大涨',
+                icon: 'fa-microchip',
+                color: '#3498db'
+            }
+        ];
+
+        // 初始化游戏
+        function initGame() {
+            // 初始化商品价格
+            products.forEach(product => {
+                product.currentPrice = product.basePrice;
+                product.trend = 0; // -1: 下跌, 0: 稳定, 1: 上涨
+                product.priceHistory = [product.basePrice];
+            });
+
+            // 初始化库存
+            products.forEach(product => {
+                gameState.inventory[product.id] = 0;
+            });
+
+            // 初始事件
+            addMarketEvent('欢迎来到市场大亨！开始您的交易之旅吧！', 'info');
+            addMarketEvent('提示：关注价格趋势，低买高卖才能盈利！', 'info');
+
+            updateUI();
+        }
+
+        // 更新商品价格
+        function updatePrices() {
+            products.forEach(product => {
+                const oldPrice = product.currentPrice;
+                
+                // 基础波动
+                let changePercent = (Math.random() - 0.5) * 2 * product.volatility;
+                
+                // 市场事件影响
+                gameState.marketEvents.forEach(event => {
+                    if (event.effect.type === 'multiplier') {
+                        changePercent += (event.effect.value - 1);
+                    } else if (event.effect.type === 'specific' && event.effect.product === product.id) {
+                        changePercent += (event.effect.multiplier - 1);
+                    }
+                });
+
+                // 计算新价格
+                const newPrice = Math.max(10, Math.round(oldPrice * (1 + changePercent)));
+                
+                // 更新趋势
+                if (newPrice > oldPrice) {
+                    product.trend = 1;
+                } else if (newPrice < oldPrice) {
+                    product.trend = -1;
+                } else {
+                    product.trend = 0;
+                }
+                
+                product.currentPrice = newPrice;
+                product.priceHistory.push(newPrice);
+                
+                // 保持价格历史长度
+                if (product.priceHistory.length > 10) {
+                    product.priceHistory.shift();
+                }
+            });
+
+            // 更新市场事件持续时间
+            gameState.marketEvents = gameState.marketEvents.filter(event => {
+                if (event.effect.duration) {
+                    event.effect.duration--;
+                    return event.effect.duration > 0;
+                }
+                return true;
+            });
+
+            // 随机触发新事件
+            if (Math.random() < 0.3) { // 30%概率触发事件
+                const randomEvent = marketEvents[Math.floor(Math.random() * marketEvents.length)];
+                gameState.marketEvents.push({...randomEvent});
+                addMarketEvent(`市场事件: ${randomEvent.description}`, 'info');
+            }
+        }
+
+        // 进入下一天
+        function nextDay() {
+            gameState.day++;
+            updatePrices();
+            updateUI();
+            
+            // 检查游戏结束条件
+            if (gameState.cash <= 0 && calculateTotalAssets() <= 0) {
+                endGame('您的现金和资产都已耗尽！');
+            } else if (gameState.day > 365) {
+                endGame('一年的交易期已结束！');
+            }
+        }
+
+        // 计算总资产
+        function calculateTotalAssets() {
+            let inventoryValue = 0;
+            products.forEach(product => {
+                inventoryValue += gameState.inventory[product.id] * product.currentPrice;
+            });
+            gameState.totalValue = gameState.cash + inventoryValue;
+            return gameState.totalValue;
+        }
+
+        // 买入商品
+        function buyProduct(productId, quantity) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return false;
+
+            const totalCost = product.currentPrice * quantity;
+            
+            if (gameState.cash < totalCost) {
+                showNotification('现金不足，无法完成交易！', 'error');
+                return false;
+            }
+
+            gameState.cash -= totalCost;
+            gameState.inventory[productId] += quantity;
+            
+            // 记录交易历史
+            addToHistory(`买入 ${quantity} 单位${product.name}，单价 ¥${product.currentPrice}`, 'success');
+            showNotification(`成功买入 ${quantity} 单位${product.name}！`, 'success');
+            
+            updateUI();
+            checkAchievements();
+            return true;
+        }
+
+        // 卖出商品
+        function sellProduct(productId, quantity) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return false;
+
+            if (gameState.inventory[productId] < quantity) {
+                showNotification('库存不足，无法卖出！', 'error');
+                return false;
+            }
+
+            const totalValue = product.currentPrice * quantity;
+            
+            gameState.cash += totalValue;
+            gameState.inventory[productId] -= quantity;
+            
+            // 记录交易历史
+            addToHistory(`卖出 ${quantity} 单位${product.name}，单价 ¥${product.currentPrice}`, 'danger');
+            showNotification(`成功卖出 ${quantity} 单位${product.name}！`, 'success');
+            
+            updateUI();
+            checkAchievements();
+            return true;
+        }
+
+        // 添加交易记录
+        function addToHistory(message, type = 'info') {
+            const historyItem = {
+                message,
+                type,
+                day: gameState.day,
+                timestamp: new Date().toLocaleTimeString()
+            };
+            
+            gameState.history.unshift(historyItem);
+            
+            // 保持历史记录长度
+            if (gameState.history.length > 20) {
+                gameState.history.pop();
+            }
+        }
+
+        // 添加市场事件
+        function addMarketEvent(message, type = 'info') {
+            const eventItem = {
+                message,
+                type,
+                day: gameState.day
+            };
+            
+            // 添加到事件列表
+            const eventsList = document.getElementById('events-list');
+            const eventElement = document.createElement('div');
+            eventElement.className = `history-item ${type}`;
+            eventElement.innerHTML = `
+                <div style="font-weight: 500;">${message}</div>
+                <div style="font-size: 0.8rem; color: #7f8c8d; margin-top: 5px;">第 ${gameState.day} 天</div>
+            `;
+            
+            eventsList.insertBefore(eventElement, eventsList.firstChild);
+            
+            // 保持事件列表长度
+            if (eventsList.children.length > 5) {
+                eventsList.removeChild(eventsList.lastChild);
+            }
+        }
+
+        // 检查成就
+        function checkAchievements() {
+            const totalAssets = calculateTotalAssets();
+            
+            // 检查成就
+            if (totalAssets >= 50000 && !gameState.achievements.includes('wealthy_trader')) {
+                gameState.achievements.push('wealthy_trader');
+                showNotification('成就解锁：富有商人！', 'success');
+            }
+            
+            if (totalAssets >= 100000 && !gameState.achievements.includes('market_tycoon')) {
+                gameState.achievements.push('market_tycoon');
+                showNotification('成就解锁：市场大亨！', 'success');
+                endGame('恭喜！您已达成目标，成为真正的市场大亨！');
+            }
+            
+            if (gameState.day >= 30 && !gameState.achievements.includes('seasoned_trader')) {
+                gameState.achievements.push('seasoned_trader');
+                showNotification('成就解锁：资深商人！', 'success');
+            }
+        }
+
+        // 显示通知
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            const messageElement = document.getElementById('notification-message');
+            
+            notification.className = `notification ${type} show`;
+            messageElement.textContent = message;
+            
+            // 添加图标
+            const icon = notification.querySelector('i');
+            if (type === 'success') {
+                icon.className = 'fas fa-check-circle';
+            } else if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+            } else {
+                icon.className = 'fas fa-info-circle';
+            }
+            
+            // 3秒后隐藏
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // 游戏结束
+        function endGame(message) {
+            const gameOver = document.getElementById('game-over');
+            const gameOverMessage = document.getElementById('game-over-message');
+            
+            gameOverMessage.textContent = message;
+            gameOver.style.display = 'flex';
+        }
+
+        // 重新开始游戏
+        function restartGame() {
+            // 重置游戏状态
+            gameState.cash = 10000;
+            gameState.day = 1;
+            gameState.reputation = 50;
+            gameState.history = [];
+            gameState.achievements = ['newbie_trader'];
+            gameState.marketEvents = [];
+            
+            // 重置库存
+            products.forEach(product => {
+                gameState.inventory[product.id] = 0;
+            });
+            
+            // 重置价格
+            products.forEach(product => {
+                product.currentPrice = product.basePrice;
+                product.trend = 0;
+                product.priceHistory = [product.basePrice];
+            });
+            
+            // 清空事件列表
+            document.getElementById('events-list').innerHTML = '';
+            
+            // 添加初始事件
+            addMarketEvent('欢迎来到市场大亨！开始您的交易之旅吧！', 'info');
+            addMarketEvent('提示：关注价格趋势，低买高卖才能盈利！', 'info');
+            
+            // 隐藏游戏结束弹窗
+            document.getElementById('game-over').style.display = 'none';
+            
+            updateUI();
+        }
+
+        // 更新UI
+        function updateUI() {
+            // 更新现金显示
+            document.getElementById('cash').textContent = `¥${gameState.cash.toLocaleString()}`;
+            document.getElementById('available-cash').textContent = `¥${gameState.cash.toLocaleString()}`;
+            
+            // 更新总资产
+            const totalAssets = calculateTotalAssets();
+            document.getElementById('total-assets').textContent = `¥${totalAssets.toLocaleString()}`;
+            
+            // 更新天数
+            document.getElementById('day').textContent = `第 ${gameState.day} 天`;
+            
+            // 更新进度条
+            const progress = Math.min(100, (totalAssets / 100000) * 100);
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+            
+            // 更新声望
+            document.getElementById('reputation').textContent = gameState.reputation;
+            
+            // 更新市场表格
+            const marketTable = document.getElementById('market-table');
+            const productSelect = document.getElementById('product-select');
+            
+            marketTable.innerHTML = '';
+            productSelect.innerHTML = '';
+            
+            products.forEach(product => {
+                // 市场表格行
+                const row = document.createElement('tr');
+                
+                // 趋势图标
+                let trendIcon = '';
+                if (product.trend === 1) {
+                    trendIcon = '<i class="fas fa-arrow-up trend-indicator trend-up"></i>';
+                } else if (product.trend === -1) {
+                    trendIcon = '<i class="fas fa-arrow-down trend-indicator trend-down"></i>';
+                } else {
+                    trendIcon = '<i class="fas fa-minus" style="color: #f39c12;"></i>';
+                }
+                
+                // 价格变化颜色
+                const priceClass = product.trend === 1 ? 'price-up' : (product.trend === -1 ? 'price-down' : 'price-stable');
+                
+                row.innerHTML = `
+                    <td><i class="fas ${product.icon}"></i> ${product.name}</td>
+                    <td class="price ${priceClass}">¥${product.currentPrice.toLocaleString()}</td>
+                    <td>${trendIcon}</td>
+                    <td>${gameState.inventory[product.id]}</td>
+                    <td>
+                        <button class="btn btn-success btn-sm" onclick="quickBuy('${product.id}')" style="padding: 5px 10px; font-size: 0.9rem;">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="quickSell('${product.id}')" style="padding: 5px 10px; font-size: 0.9rem; margin-left: 5px;">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </td>
+                `;
+                
+                marketTable.appendChild(row);
+                
+                // 商品选择选项
+                const option = document.createElement('option');
+                option.value = product.id;
+                option.textContent = `${product.name} (¥${product.currentPrice})`;
+                productSelect.appendChild(option);
+            });
+            
+            // 更新库存列表
+            const inventoryList = document.getElementById('inventory-list');
+            inventoryList.innerHTML = '';
+            
+            let totalInventoryValue = 0;
+            products.forEach(product => {
+                const quantity = gameState.inventory[product.id];
+                if (quantity > 0) {
+                    const itemValue = quantity * product.currentPrice;
+                    totalInventoryValue += itemValue;
+                    
+                    const item = document.createElement('div');
+                    item.className = 'inventory-item';
+                    item.innerHTML = `
+                        <div class="inventory-name">
+                            <i class="fas ${product.icon}"></i> ${product.name}
+                        </div>
+                        <div style="display: flex; gap: 20px;">
+                            <div class="inventory-qty">${quantity} 单位</div>
+                            <div class="inventory-value">¥${itemValue.toLocaleString()}</div>
+                        </div>
+                    `;
+                    inventoryList.appendChild(item);
+                }
+            });
+            
+            if (totalInventoryValue === 0) {
+                inventoryList.innerHTML = '<div style="text-align: center; color: #7f8c8d; padding: 20px;">库存为空</div>';
+            }
+            
+            document.getElementById('inventory-value').textContent = `¥${totalInventoryValue.toLocaleString()}`;
+            
+            // 更新交易历史
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = '';
+            
+            gameState.history.forEach(record => {
+                const historyItem = document.createElement('div');
+                historyItem.className = `history-item ${record.type}`;
+                historyItem.innerHTML = `
+                    <div>${record.message}</div>
+                    <div style="font-size: 0.8rem; color: #7f8c8d; margin-top: 5px;">
+                        第 ${record.day} 天 · ${record.timestamp}
+                    </div>
+                `;
+                historyList.appendChild(historyItem);
+            });
+            
+            if (gameState.history.length === 0) {
+                historyList.innerHTML = '<div style="text-align: center; color: #7f8c8d; padding: 20px;">暂无交易记录</div>';
+            }
+            
+            // 更新成就显示
+            const achievements = document.getElementById('achievements');
+            achievements.innerHTML = '';
+            
+            const achievementMap = {
+                'newbie_trader': '新手商人',
+                'seasoned_trader': '资深商人',
+                'wealthy_trader': '富有商人',
+                'market_tycoon': '市场大亨'
+            };
+            
+            gameState.achievements.forEach(achievement => {
+                if (achievementMap[achievement]) {
+                    const badge = document.createElement('span');
+                    badge.className = 'achievement-badge';
+                    badge.textContent = achievementMap[achievement];
+                    achievements.appendChild(badge);
+                }
+            });
+            
+            // 更新预估价格
+            updateEstimatedPrice();
+        }
+
+        // 快速买入
+        function quickBuy(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                document.getElementById('product-select').value = productId;
+                updateEstimatedPrice();
+                document.getElementById('buy-btn').click();
+            }
+        }
+
+        // 快速卖出
+        function quickSell(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product && gameState.inventory[productId] > 0) {
+                document.getElementById('product-select').value = productId;
+                updateEstimatedPrice();
+                document.getElementById('sell-btn').click();
+            }
+        }
+
+        // 更新预估价格
+        function updateEstimatedPrice() {
+            const productSelect = document.getElementById('product-select');
+            const quantityInput = document.getElementById('trade-quantity');
+            const estimatedPriceElement = document.getElementById('estimated-price');
+            
+            const productId = productSelect.value;
+            const quantity = parseInt(quantityInput.value) || 1;
+            
+            if (productId) {
+                const product = products.find(p => p.id === productId);
+                if (product) {
+                    const estimatedPrice = product.currentPrice * quantity;
+                    estimatedPriceElement.textContent = `¥${estimatedPrice.toLocaleString()}`;
+                }
+            } else {
+                estimatedPriceElement.textContent = '¥0';
+            }
+        }
+
+        // 事件监听器
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化游戏
+            initGame();
+            
+            // 买入按钮点击事件
+            document.getElementById('buy-btn').addEventListener('click', function() {
+                const productId = document.getElementById('product-select').value;
+                const quantity = parseInt(document.getElementById('trade-quantity').value) || 1;
+                
+                if (productId && quantity > 0) {
+                    buyProduct(productId, quantity);
+                } else {
+                    showNotification('请选择商品并输入有效数量！', 'error');
+                }
+            });
+            
+            // 卖出按钮点击事件
+            document.getElementById('sell-btn').addEventListener('click', function() {
+                const productId = document.getElementById('product-select').value;
+                const quantity = parseInt(document.getElementById('trade-quantity').value) || 1;
+                
+                if (productId && quantity > 0) {
+                    sellProduct(productId, quantity);
+                } else {
+                    showNotification('请选择商品并输入有效数量！', 'error');
+                }
+            });
+            
+            // 下一天按钮点击事件
+            document.getElementById('next-day-btn').addEventListener('click', function() {
+                nextDay();
+            });
+            
+            // 重新开始按钮点击事件
+            document.getElementById('restart-btn').addEventListener('click', function() {
+                restartGame();
+            });
+            
+            // 重置游戏按钮点击事件
+            document.getElementById('reset-game-btn').addEventListener('click', function() {
+                if (confirm('确定要重新开始游戏吗？所有进度都将丢失！')) {
+                    restartGame();
+                }
+            });
+            
+            // 保存游戏按钮点击事件
+            document.getElementById('save-game-btn').addEventListener('click', function() {
+                // 在实际应用中，这里会实现保存到本地存储或服务器
+                showNotification('游戏已保存！（演示功能）', 'success');
+            });
+            
+            // 输入框变化事件
+            document.getElementById('product-select').addEventListener('change', updateEstimatedPrice);
+            document.getElementById('trade-quantity').addEventListener('input', updateEstimatedPrice);
+            
+            // 快捷按键
+            document.addEventListener('keydown', function(event) {
+                // 空格键进入下一天
+                if (event.code === 'Space') {
+                    event.preventDefault();
+                    document.getElementById('next-day-btn').click();
+                }
+                // B键买入
+                else if (event.code === 'KeyB' && event.ctrlKey) {
+                    event.preventDefault();
+                    document.getElementById('buy-btn').click();
+                }
+                // S键卖出
+                else if (event.code === 'KeyS' && event.ctrlKey) {
+                    event.preventDefault();
+                    document.getElementById('sell-btn').click();
+                }
+            });
+        });
+
+        // 暴露函数给全局作用域
+        window.quickBuy = quickBuy;
+        window.quickSell = quickSell;
+    </script>
 </body>
 </html>
