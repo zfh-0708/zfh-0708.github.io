@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>市场大亨 - 经济模拟经营游戏</title>
+    <title>市场大亨 - 经济模拟经营游戏（新闻系统版）</title>
     <style>
         * {
             margin: 0;
@@ -18,6 +18,7 @@
             --success: #27ae60;
             --warning: #f39c12;
             --danger: #e74c3c;
+            --info: #17a2b8;
             --light: #ecf0f1;
             --dark: #2c3e50;
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -104,6 +105,10 @@
             gap: 10px;
         }
 
+        .card h2 i {
+            color: var(--secondary);
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -165,6 +170,10 @@
             color: var(--danger);
         }
 
+        .price-stable {
+            color: var(--warning);
+        }
+
         .trend-indicator {
             display: inline-block;
             width: 0;
@@ -195,6 +204,11 @@
             border-radius: 8px;
             font-size: 1rem;
             transition: var(--transition);
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--secondary);
         }
 
         .btn {
@@ -240,25 +254,97 @@
             transform: translateY(-2px);
         }
 
-        .history-list {
+        .btn-info {
+            background: var(--info);
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #138496;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .history-list, .news-list {
             max-height: 300px;
             overflow-y: auto;
         }
 
-        .history-item {
-            padding: 10px;
+        .history-item, .news-item {
+            padding: 12px;
             margin: 8px 0;
             background: var(--light);
             border-radius: 6px;
             border-left: 4px solid var(--secondary);
         }
 
-        .history-item.success {
+        .history-item.success, .news-item.positive {
             border-left-color: var(--success);
         }
 
-        .history-item.danger {
+        .history-item.danger, .news-item.negative {
             border-left-color: var(--danger);
+        }
+
+        .history-item.warning, .news-item.neutral {
+            border-left-color: var(--warning);
+        }
+
+        .news-item.info {
+            border-left-color: var(--info);
+        }
+
+        .news-item.unverified {
+            border-left-color: #6c757d;
+            opacity: 0.7;
+        }
+
+        .news-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .news-title {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .news-reliability {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: var(--info);
+            color: white;
+        }
+
+        .news-reliability.high {
+            background: var(--success);
+        }
+
+        .news-reliability.medium {
+            background: var(--warning);
+        }
+
+        .news-reliability.low {
+            background: var(--danger);
+        }
+
+        .news-content {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .news-source {
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-align: right;
         }
 
         .progress-bar {
@@ -296,6 +382,18 @@
             transform: translateX(0);
         }
 
+        .notification.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .notification.error {
+            border-left: 4px solid var(--danger);
+        }
+
+        .notification.info {
+            border-left: 4px solid var(--secondary);
+        }
+
         .day-counter {
             font-size: 1.2rem;
             color: var(--primary);
@@ -308,6 +406,10 @@
             align-items: center;
             padding: 10px 0;
             border-bottom: 1px solid var(--light);
+        }
+
+        .inventory-item:last-child {
+            border-bottom: none;
         }
 
         .inventory-name {
@@ -353,6 +455,28 @@
             width: 90%;
         }
 
+        .game-over h2 {
+            color: var(--danger);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .game-over p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+
+        .achievement-badge {
+            display: inline-block;
+            background: var(--warning);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 5px;
+        }
+
         footer {
             text-align: center;
             margin-top: 30px;
@@ -367,12 +491,13 @@
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-chart-line"></i> 市场大亨</h1>
-            <p class="subtitle">模拟经营游戏 - 低买高卖，成为市场主宰！</p>
+            <h1><i class="fas fa-chart-line"></i> 市场大亨（新闻系统版）</h1>
+            <p class="subtitle">模拟经营游戏 - 低买高卖，分析新闻，成为市场主宰！</p>
         </header>
 
         <div class="game-container">
             <div class="main-panel">
+                <!-- 玩家状态面板 -->
                 <div class="card">
                     <h2><i class="fas fa-user-tie"></i> 玩家状态</h2>
                     <div class="stats-grid">
@@ -401,6 +526,7 @@
                     </div>
                 </div>
 
+                <!-- 市场商品面板 -->
                 <div class="card">
                     <h2><i class="fas fa-store"></i> 当前市场</h2>
                     <table class="products-table">
@@ -414,33 +540,52 @@
                             </tr>
                         </thead>
                         <tbody id="market-table">
+                            <!-- 商品数据将通过JavaScript动态生成 -->
                         </tbody>
                     </table>
                 </div>
 
+                <!-- 库存面板 -->
                 <div class="card">
                     <h2><i class="fas fa-warehouse"></i> 我的库存</h2>
                     <div id="inventory-list">
+                        <!-- 库存数据将通过JavaScript动态生成 -->
                     </div>
                     <div style="text-align: center; margin-top: 20px; color: var(--dark); opacity: 0.7; font-size: 0.9rem;">
                         总库存价值: <span id="inventory-value">¥0</span>
                     </div>
                 </div>
 
+                <!-- 交易历史面板 -->
                 <div class="card">
                     <h2><i class="fas fa-history"></i> 交易记录</h2>
                     <div class="history-list" id="history-list">
+                        <!-- 交易记录将通过JavaScript动态生成 -->
                     </div>
                 </div>
             </div>
 
+            <!-- 侧边栏面板 -->
             <div class="sidebar">
+                <!-- 新闻面板 -->
+                <div class="card">
+                    <h2><i class="fas fa-newspaper"></i> 今日财经新闻</h2>
+                    <div class="news-list" id="news-list">
+                        <!-- 新闻将通过JavaScript动态生成 -->
+                    </div>
+                    <button class="btn btn-info" id="refresh-news-btn" style="width: 100%; margin-top: 10px;">
+                        <i class="fas fa-sync-alt"></i> 刷新新闻 (¥500)
+                    </button>
+                </div>
+
+                <!-- 操作面板 -->
                 <div class="card">
                     <h2><i class="fas fa-handshake"></i> 交易操作</h2>
                     <div id="trade-form">
                         <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 8px; font-weight: 500;">选择商品</label>
                             <select id="product-select" style="width: 100%; padding: 12px; border: 2px solid #ecf0f1; border-radius: 8px; font-size: 1rem;">
+                                <!-- 商品选项将通过JavaScript动态生成 -->
                             </select>
                         </div>
                         <div class="input-group">
@@ -461,12 +606,15 @@
                     </div>
                 </div>
 
+                <!-- 市场事件面板 -->
                 <div class="card">
                     <h2><i class="fas fa-bullhorn"></i> 市场事件</h2>
                     <div id="events-list">
+                        <!-- 市场事件将通过JavaScript动态生成 -->
                     </div>
                 </div>
 
+                <!-- 游戏控制面板 -->
                 <div class="card">
                     <h2><i class="fas fa-gamepad"></i> 游戏控制</h2>
                     <button class="btn btn-primary" id="next-day-btn" style="width: 100%; margin-bottom: 10px;">
@@ -479,19 +627,30 @@
                         <i class="fas fa-redo"></i> 重新开始
                     </button>
                 </div>
+
+                <!-- 成就面板 -->
+                <div class="card">
+                    <h2><i class="fas fa-trophy"></i> 成就</h2>
+                    <div id="achievements">
+                        <span class="achievement-badge">新手商人</span>
+                        <!-- 成就将通过JavaScript动态生成 -->
+                    </div>
+                </div>
             </div>
         </div>
 
         <footer>
-            <p>© 2023 市场大亨 - 经济模拟经营游戏 | 低买高卖，理性投资！</p>
+            <p>© 2023 市场大亨 - 经济模拟经营游戏 | 分析新闻，理性投资，低买高卖！</p>
         </footer>
     </div>
 
+    <!-- 通知弹窗 -->
     <div class="notification" id="notification">
         <i class="fas fa-info-circle"></i>
         <div id="notification-message">消息内容</div>
     </div>
 
+    <!-- 游戏结束弹窗 -->
     <div class="game-over" id="game-over">
         <div class="game-over-content">
             <h2><i class="fas fa-skull-crossbones"></i> 游戏结束</h2>
@@ -512,7 +671,9 @@
             totalValue: 0,
             history: [],
             achievements: ['newbie_trader'],
-            marketEvents: []
+            marketEvents: [],
+            todaysNews: [],  // 今日新闻
+            newsHistory: []  // 新闻历史记录
         };
 
         // 商品数据
@@ -525,12 +686,385 @@
             { id: 'crypto', name: '加密货币', basePrice: 50, volatility: 0.4, icon: 'fa-bitcoin-sign' }
         ];
 
+        // 市场事件
+        const marketEvents = [
+            { 
+                name: '经济繁荣', 
+                effect: { type: 'multiplier', value: 1.3, duration: 3 },
+                description: '经济蓬勃发展，所有商品价格上涨30%！',
+                icon: 'fa-chart-line',
+                color: '#27ae60'
+            },
+            { 
+                name: '经济衰退', 
+                effect: { type: 'multiplier', value: 0.8, duration: 3 },
+                description: '经济衰退，所有商品价格下跌20%',
+                icon: 'fa-chart-line-down',
+                color: '#e74c3c'
+            },
+            { 
+                name: '黄金热潮', 
+                effect: { type: 'specific', product: 'gold', multiplier: 1.5, duration: 2 },
+                description: '黄金价格飙升50%！',
+                icon: 'fa-gem',
+                color: '#f39c12'
+            },
+            { 
+                name: '原油危机', 
+                effect: { type: 'specific', product: 'oil', multiplier: 1.8, duration: 2 },
+                description: '原油供应紧张，价格上涨80%',
+                icon: 'fa-gas-pump',
+                color: '#e74c3c'
+            },
+            { 
+                name: '科技突破', 
+                effect: { type: 'specific', product: 'tech', multiplier: 1.6, duration: 3 },
+                description: '科技行业重大突破，科技股大涨',
+                icon: 'fa-microchip',
+                color: '#3498db'
+            }
+        ];
+
+        // 新闻数据
+        const newsTemplates = [
+            // 黄金相关新闻
+            {
+                product: 'gold',
+                positive: [
+                    { 
+                        title: "央行增持黄金储备", 
+                        content: "据内部消息，多家央行计划大幅增加黄金储备，可能推高金价。", 
+                        reliability: 0.7,
+                        source: "金融时报"
+                    },
+                    { 
+                        title: "地缘政治紧张", 
+                        content: "国际局势紧张，投资者转向黄金避险，金价可能上涨。", 
+                        reliability: 0.8,
+                        source: "路透社"
+                    },
+                    { 
+                        title: "金矿产量下降", 
+                        content: "全球主要金矿报告产量下降，供应紧张可能推高价格。", 
+                        reliability: 0.6,
+                        source: "矿业周刊"
+                    }
+                ],
+                negative: [
+                    { 
+                        title: "美元走强", 
+                        content: "美元指数大幅上涨，以美元计价的黄金可能承压下跌。", 
+                        reliability: 0.75,
+                        source: "华尔街日报"
+                    },
+                    { 
+                        title: "美联储加息预期", 
+                        content: "市场预期美联储将继续加息，黄金作为无息资产吸引力下降。", 
+                        reliability: 0.7,
+                        source: "CNBC"
+                    },
+                    { 
+                        title: "大型基金减持黄金", 
+                        content: "多个大型对冲基金报告减持黄金ETF，可能引发抛售。", 
+                        reliability: 0.65,
+                        source: "彭博社"
+                    }
+                ]
+            },
+            // 原油相关新闻
+            {
+                product: 'oil',
+                positive: [
+                    { 
+                        title: "OPEC+减产协议", 
+                        content: "OPEC+同意进一步减产，原油供应将收紧。", 
+                        reliability: 0.8,
+                        source: "石油新闻"
+                    },
+                    { 
+                        title: "中东局势紧张", 
+                        content: "中东地缘政治紧张加剧，可能影响原油供应。", 
+                        reliability: 0.7,
+                        source: "BBC新闻"
+                    },
+                    { 
+                        title: "需求复苏超预期", 
+                        content: "全球经济复苏强于预期，原油需求增长加速。", 
+                        reliability: 0.6,
+                        source: "国际能源署"
+                    }
+                ],
+                negative: [
+                    { 
+                        title: "美国原油库存大增", 
+                        content: "美国原油库存增幅远超预期，供应过剩担忧加剧。", 
+                        reliability: 0.75,
+                        source: "EIA报告"
+                    },
+                    { 
+                        title: "新能源车销量创新高", 
+                        content: "电动汽车销量大幅增长，长期原油需求前景黯淡。", 
+                        reliability: 0.65,
+                        source: "清洁能源观察"
+                    },
+                    { 
+                        title: "页岩油产量增加", 
+                        content: "美国页岩油产量持续增加，抵消OPEC减产效果。", 
+                        reliability: 0.7,
+                        source: "石油价格网"
+                    }
+                ]
+            },
+            // 谷物相关新闻
+            {
+                product: 'grain',
+                positive: [
+                    { 
+                        title: "恶劣天气影响收成", 
+                        content: "主要产粮区遭遇干旱，谷物产量可能大幅下降。", 
+                        reliability: 0.7,
+                        source: "农业气象局"
+                    },
+                    { 
+                        title: "出口需求旺盛", 
+                        content: "多个国家增加谷物进口，推动国际粮价上涨。", 
+                        reliability: 0.65,
+                        source: "国际贸易观察"
+                    },
+                    { 
+                        title: "生物燃料需求增加", 
+                        content: "生物燃料政策推动，谷物需求预计增长。", 
+                        reliability: 0.6,
+                        source: "能源农业周刊"
+                    }
+                ],
+                negative: [
+                    { 
+                        title: "丰收预期强烈", 
+                        content: "主要产粮区天气良好，丰收在望，粮价可能下跌。", 
+                        reliability: 0.75,
+                        source: "农业展望"
+                    },
+                    { 
+                        title: "出口限制解除", 
+                        content: "多个国家解除谷物出口限制，供应增加。", 
+                        reliability: 0.7,
+                        source: "世界粮农组织"
+                    },
+                    { 
+                        title: "饲料需求下降", 
+                        content: "畜牧业规模缩减，饲料用谷物需求下降。", 
+                        reliability: 0.65,
+                        source: "畜牧业报告"
+                    }
+                ]
+            },
+            // 科技股相关新闻
+            {
+                product: 'tech',
+                positive: [
+                    { 
+                        title: "AI技术突破", 
+                        content: "人工智能领域取得重大突破，科技股可能受益上涨。", 
+                        reliability: 0.7,
+                        source: "科技前沿"
+                    },
+                    { 
+                        title: "芯片需求激增", 
+                        content: "全球芯片需求持续增长，半导体股票表现强劲。", 
+                        reliability: 0.75,
+                        source: "半导体观察"
+                    },
+                    { 
+                        title: "巨头财报超预期", 
+                        content: "科技巨头季度财报远超预期，提振板块信心。", 
+                        reliability: 0.8,
+                        source: "财经新闻"
+                    }
+                ],
+                negative: [
+                    { 
+                        title: "监管加强", 
+                        content: "政府对科技巨头加强反垄断监管，行业前景承压。", 
+                        reliability: 0.7,
+                        source: "政策观察"
+                    },
+                    { 
+                        title: "增长放缓担忧", 
+                        content: "分析师警告科技行业增长可能放缓，股价可能调整。", 
+                        reliability: 0.65,
+                        source: "投资银行报告"
+                    },
+                    { 
+                        title: "估值过高", 
+                        content: "科技股估值处于历史高位，回调风险增加。", 
+                        reliability: 0.6,
+                        source: "价值投资周刊"
+                    }
+                ]
+            },
+            // 房地产相关新闻
+            {
+                product: 'real_estate',
+                positive: [
+                    { 
+                        title: "降息刺激楼市", 
+                        content: "央行降息刺激房地产市场，房价可能上涨。", 
+                        reliability: 0.75,
+                        source: "房地产观察"
+                    },
+                    { 
+                        title: "城镇化加速", 
+                        content: "城镇化进程加速，房地产需求持续增长。", 
+                        reliability: 0.7,
+                        source: "城市规划局"
+                    },
+                    { 
+                        title: "外资流入", 
+                        content: "外资加大房地产投资，推动市场活跃。", 
+                        reliability: 0.65,
+                        source: "国际投资评论"
+                    }
+                ],
+                negative: [
+                    { 
+                        title: "房贷利率上调", 
+                        content: "多家银行上调房贷利率，购房需求可能受抑制。", 
+                        reliability: 0.8,
+                        source: "银行业报告"
+                    },
+                    { 
+                        title: "空置率上升", 
+                        content: "主要城市商业地产空置率上升，租金可能下降。", 
+                        reliability: 0.7,
+                        source: "商业地产周刊"
+                    },
+                    { 
+                        title: "政策调控加码", 
+                        content: "政府出台更严格房地产调控政策，市场降温。", 
+                        reliability: 0.75,
+                        source: "政策研究"
+                    }
+                ]
+            },
+            // 加密货币相关新闻
+            {
+                product: 'crypto',
+                positive: [
+                    { 
+                        title: "机构资金涌入", 
+                        content: "多家大型机构宣布投资加密货币，推动价格上涨。", 
+                        reliability: 0.6,
+                        source: "加密新闻"
+                    },
+                    { 
+                        title: "监管态度缓和", 
+                        content: "主要国家政府对加密货币监管态度转向缓和。", 
+                        reliability: 0.55,
+                        source: "政策追踪"
+                    },
+                    { 
+                        title: "技术升级成功", 
+                        content: "主要加密货币网络完成重要技术升级。", 
+                        reliability: 0.65,
+                        source: "区块链技术"
+                    }
+                ],
+                negative: [
+                    { 
+                        title: "黑客攻击事件", 
+                        content: "加密货币交易所遭黑客攻击，投资者信心受挫。", 
+                        reliability: 0.7,
+                        source: "网络安全报告"
+                    },
+                    { 
+                        title: "监管打击加强", 
+                        content: "多国加强对加密货币的监管打击，市场恐慌。", 
+                        reliability: 0.75,
+                        source: "监管动态"
+                    },
+                    { 
+                        title: "泡沫破裂警告", 
+                        content: "著名投资者警告加密货币泡沫可能破裂。", 
+                        reliability: 0.6,
+                        source: "市场评论"
+                    }
+                ]
+            },
+            // 宏观经济新闻（影响所有商品）
+            {
+                product: 'all',
+                positive: [
+                    { 
+                        title: "全球经济复苏强劲", 
+                        content: "全球经济复苏势头强劲，大宗商品需求旺盛。", 
+                        reliability: 0.7,
+                        source: "IMF报告"
+                    },
+                    { 
+                        title: "通胀预期上升", 
+                        content: "通胀预期上升，实物资产和商品可能受益。", 
+                        reliability: 0.65,
+                        source: "经济研究"
+                    },
+                    { 
+                        title: "贸易协议达成", 
+                        content: "主要经济体达成新贸易协议，促进全球贸易。", 
+                        reliability: 0.75,
+                        source: "国际贸易新闻"
+                    }
+                ],
+                negative: [
+                    { 
+                        title: "经济衰退担忧", 
+                        content: "对全球经济衰退的担忧加剧，商品需求可能下降。", 
+                        reliability: 0.7,
+                        source: "经济展望"
+                    },
+                    { 
+                        title: "美元大幅升值", 
+                        content: "美元指数大幅升值，以美元计价的商品普遍承压。", 
+                        reliability: 0.8,
+                        source: "外汇市场"
+                    },
+                    { 
+                        title: "地缘政治危机", 
+                        content: "国际地缘政治危机加剧，市场避险情绪升温。", 
+                        reliability: 0.6,
+                        source: "国际新闻"
+                    }
+                ]
+            }
+        ];
+
+        // 虚假新闻模板（可靠性低）
+        const fakeNewsTemplates = [
+            { 
+                title: "内幕消息泄露", 
+                content: "据匿名消息人士透露，{product}将有重大利好消息。", 
+                reliability: 0.3,
+                source: "未证实来源"
+            },
+            { 
+                title: "网络传言", 
+                content: "社交媒体上传言{product}价格将大幅波动。", 
+                reliability: 0.25,
+                source: "网络论坛"
+            },
+            { 
+                title: "小道消息", 
+                content: "投资圈内流传关于{product}的未经证实消息。", 
+                reliability: 0.2,
+                source: "匿名渠道"
+            }
+        ];
+
         // 初始化游戏
         function initGame() {
             // 初始化商品价格
             products.forEach(product => {
                 product.currentPrice = product.basePrice;
-                product.trend = 0;
+                product.trend = 0; // -1: 下跌, 0: 稳定, 1: 上涨
                 product.priceHistory = [product.basePrice];
             });
 
@@ -539,14 +1073,86 @@
                 gameState.inventory[product.id] = 0;
             });
 
+            // 生成初始新闻
+            generateDailyNews();
+
             // 初始事件
             addMarketEvent('欢迎来到市场大亨！开始您的交易之旅吧！', 'info');
-            addMarketEvent('提示：关注价格趋势，低买高卖才能盈利！', 'info');
+            addMarketEvent('提示：财经新闻可能提供市场线索，但需谨慎判断其可靠性！', 'info');
 
             updateUI();
         }
 
-        // 更新商品价格
+        // 生成每日新闻
+        function generateDailyNews() {
+            gameState.todaysNews = [];
+            
+            // 每天生成2-4条新闻
+            const numNews = Math.floor(Math.random() * 3) + 2;
+            
+            for (let i = 0; i < numNews; i++) {
+                let news;
+                
+                // 30%概率生成虚假新闻
+                if (Math.random() < 0.3) {
+                    const fakeTemplate = fakeNewsTemplates[Math.floor(Math.random() * fakeNewsTemplates.length)];
+                    const product = products[Math.floor(Math.random() * products.length)];
+                    
+                    news = {
+                        ...fakeTemplate,
+                        content: fakeTemplate.content.replace('{product}', product.name),
+                        product: product.id,
+                        isFake: true,
+                        impact: Math.random() < 0.5 ? 'positive' : 'negative' // 虚假新闻随机影响方向
+                    };
+                } else {
+                    // 真实新闻
+                    const newsCategory = newsTemplates[Math.floor(Math.random() * newsTemplates.length)];
+                    const impactType = Math.random() < 0.5 ? 'positive' : 'negative';
+                    const newsList = impactType === 'positive' ? newsCategory.positive : newsCategory.negative;
+                    
+                    if (newsList && newsList.length > 0) {
+                        const template = newsList[Math.floor(Math.random() * newsList.length)];
+                        news = {
+                            ...template,
+                            product: newsCategory.product,
+                            impact: impactType,
+                            isFake: false
+                        };
+                    } else {
+                        continue; // 如果没有对应的新闻，跳过
+                    }
+                }
+                
+                // 添加时间戳
+                news.day = gameState.day;
+                news.id = Date.now() + i;
+                
+                gameState.todaysNews.push(news);
+                gameState.newsHistory.push(news);
+                
+                // 限制新闻历史长度
+                if (gameState.newsHistory.length > 50) {
+                    gameState.newsHistory.shift();
+                }
+            }
+        }
+
+        // 刷新新闻（花费现金）
+        function refreshNews() {
+            if (gameState.cash < 500) {
+                showNotification('现金不足，无法刷新新闻！', 'error');
+                return false;
+            }
+            
+            gameState.cash -= 500;
+            generateDailyNews();
+            showNotification('已花费¥500刷新今日新闻！', 'info');
+            updateUI();
+            return true;
+        }
+
+        // 更新商品价格（考虑新闻影响）
         function updatePrices() {
             products.forEach(product => {
                 const oldPrice = product.currentPrice;
@@ -554,6 +1160,44 @@
                 // 基础波动
                 let changePercent = (Math.random() - 0.5) * 2 * product.volatility;
                 
+                // 新闻影响
+                let newsImpact = 0;
+                let newsCount = 0;
+                
+                gameState.todaysNews.forEach(news => {
+                    if (news.product === product.id || news.product === 'all') {
+                        // 根据新闻可靠性计算影响
+                        let impact = 0;
+                        if (news.impact === 'positive') {
+                            impact = news.reliability * 0.2; // 正面新闻最多带来20%涨幅
+                        } else if (news.impact === 'negative') {
+                            impact = -news.reliability * 0.2; // 负面新闻最多带来20%跌幅
+                        }
+                        
+                        // 虚假新闻有50%概率产生相反影响
+                        if (news.isFake && Math.random() < 0.5) {
+                            impact = -impact;
+                        }
+                        
+                        newsImpact += impact;
+                        newsCount++;
+                    }
+                });
+                
+                // 平均新闻影响
+                if (newsCount > 0) {
+                    changePercent += (newsImpact / newsCount);
+                }
+                
+                // 市场事件影响
+                gameState.marketEvents.forEach(event => {
+                    if (event.effect.type === 'multiplier') {
+                        changePercent += (event.effect.value - 1);
+                    } else if (event.effect.type === 'specific' && event.effect.product === product.id) {
+                        changePercent += (event.effect.multiplier - 1);
+                    }
+                });
+
                 // 计算新价格
                 const newPrice = Math.max(10, Math.round(oldPrice * (1 + changePercent)));
                 
@@ -568,18 +1212,26 @@
                 
                 product.currentPrice = newPrice;
                 product.priceHistory.push(newPrice);
+                
+                // 保持价格历史长度
+                if (product.priceHistory.length > 10) {
+                    product.priceHistory.shift();
+                }
             });
 
-            // 随机触发市场事件
-            if (Math.random() < 0.3) {
-                const events = [
-                    { name: '经济繁荣', effect: 1.3, description: '经济蓬勃发展，所有商品价格上涨30%！' },
-                    { name: '经济衰退', effect: 0.8, description: '经济衰退，所有商品价格下跌20%' },
-                    { name: '黄金热潮', effect: 1.5, description: '黄金价格飙升50%！', product: 'gold' },
-                    { name: '原油危机', effect: 1.8, description: '原油供应紧张，价格上涨80%', product: 'oil' }
-                ];
-                
-                const randomEvent = events[Math.floor(Math.random() * events.length)];
+            // 更新市场事件持续时间
+            gameState.marketEvents = gameState.marketEvents.filter(event => {
+                if (event.effect.duration) {
+                    event.effect.duration--;
+                    return event.effect.duration > 0;
+                }
+                return true;
+            });
+
+            // 随机触发新事件
+            if (Math.random() < 0.3) { // 30%概率触发事件
+                const randomEvent = marketEvents[Math.floor(Math.random() * marketEvents.length)];
+                gameState.marketEvents.push({...randomEvent});
                 addMarketEvent(`市场事件: ${randomEvent.description}`, 'info');
             }
         }
@@ -588,11 +1240,14 @@
         function nextDay() {
             gameState.day++;
             updatePrices();
+            generateDailyNews(); // 每天生成新新闻
             updateUI();
             
             // 检查游戏结束条件
             if (gameState.cash <= 0 && calculateTotalAssets() <= 0) {
                 endGame('您的现金和资产都已耗尽！');
+            } else if (gameState.day > 365) {
+                endGame('一年的交易期已结束！');
             }
         }
 
@@ -711,6 +1366,17 @@
                 showNotification('成就解锁：市场大亨！', 'success');
                 endGame('恭喜！您已达成目标，成为真正的市场大亨！');
             }
+            
+            if (gameState.day >= 30 && !gameState.achievements.includes('seasoned_trader')) {
+                gameState.achievements.push('seasoned_trader');
+                showNotification('成就解锁：资深商人！', 'success');
+            }
+            
+            // 新闻相关成就
+            if (gameState.newsHistory.length >= 20 && !gameState.achievements.includes('news_reader')) {
+                gameState.achievements.push('news_reader');
+                showNotification('成就解锁：新闻读者！', 'success');
+            }
         }
 
         // 显示通知
@@ -755,6 +1421,8 @@
             gameState.history = [];
             gameState.achievements = ['newbie_trader'];
             gameState.marketEvents = [];
+            gameState.todaysNews = [];
+            gameState.newsHistory = [];
             
             // 重置库存
             products.forEach(product => {
@@ -771,9 +1439,12 @@
             // 清空事件列表
             document.getElementById('events-list').innerHTML = '';
             
+            // 生成初始新闻
+            generateDailyNews();
+            
             // 添加初始事件
             addMarketEvent('欢迎来到市场大亨！开始您的交易之旅吧！', 'info');
-            addMarketEvent('提示：关注价格趋势，低买高卖才能盈利！', 'info');
+            addMarketEvent('提示：财经新闻可能提供市场线索，但需谨慎判断其可靠性！', 'info');
             
             // 隐藏游戏结束弹窗
             document.getElementById('game-over').style.display = 'none';
@@ -901,6 +1572,72 @@
                 historyList.innerHTML = '<div style="text-align: center; color: #7f8c8d; padding: 20px;">暂无交易记录</div>';
             }
             
+            // 更新新闻列表
+            const newsList = document.getElementById('news-list');
+            newsList.innerHTML = '';
+            
+            if (gameState.todaysNews.length === 0) {
+                newsList.innerHTML = '<div style="text-align: center; color: #7f8c8d; padding: 20px;">今日暂无新闻</div>';
+            } else {
+                gameState.todaysNews.forEach(news => {
+                    const newsItem = document.createElement('div');
+                    newsItem.className = `news-item ${news.impact} ${news.isFake ? 'unverified' : ''}`;
+                    
+                    // 可靠性标签
+                    let reliabilityClass = 'low';
+                    if (news.reliability >= 0.7) {
+                        reliabilityClass = 'high';
+                    } else if (news.reliability >= 0.5) {
+                        reliabilityClass = 'medium';
+                    }
+                    
+                    // 获取商品名称
+                    let productName = '大盘';
+                    if (news.product !== 'all') {
+                        const product = products.find(p => p.id === news.product);
+                        if (product) {
+                            productName = product.name;
+                        }
+                    }
+                    
+                    newsItem.innerHTML = `
+                        <div class="news-header">
+                            <div class="news-title">${news.title}</div>
+                            <div class="news-reliability ${reliabilityClass}">
+                                ${Math.round(news.reliability * 100)}% 可靠
+                            </div>
+                        </div>
+                        <div class="news-content">${news.content}</div>
+                        <div class="news-source">
+                            相关: ${productName} | 来源: ${news.source}
+                        </div>
+                    `;
+                    
+                    newsList.appendChild(newsItem);
+                });
+            }
+            
+            // 更新成就显示
+            const achievements = document.getElementById('achievements');
+            achievements.innerHTML = '';
+            
+            const achievementMap = {
+                'newbie_trader': '新手商人',
+                'seasoned_trader': '资深商人',
+                'wealthy_trader': '富有商人',
+                'market_tycoon': '市场大亨',
+                'news_reader': '新闻读者'
+            };
+            
+            gameState.achievements.forEach(achievement => {
+                if (achievementMap[achievement]) {
+                    const badge = document.createElement('span');
+                    badge.className = 'achievement-badge';
+                    badge.textContent = achievementMap[achievement];
+                    achievements.appendChild(badge);
+                }
+            });
+            
             // 更新预估价格
             updateEstimatedPrice();
         }
@@ -979,6 +1716,11 @@
                 nextDay();
             });
             
+            // 刷新新闻按钮点击事件
+            document.getElementById('refresh-news-btn').addEventListener('click', function() {
+                refreshNews();
+            });
+            
             // 重新开始按钮点击事件
             document.getElementById('restart-btn').addEventListener('click', function() {
                 restartGame();
@@ -993,6 +1735,7 @@
             
             // 保存游戏按钮点击事件
             document.getElementById('save-game-btn').addEventListener('click', function() {
+                // 在实际应用中，这里会实现保存到本地存储或服务器
                 showNotification('游戏已保存！（演示功能）', 'success');
             });
             
@@ -1006,6 +1749,21 @@
                 if (event.code === 'Space') {
                     event.preventDefault();
                     document.getElementById('next-day-btn').click();
+                }
+                // B键买入
+                else if (event.code === 'KeyB' && event.ctrlKey) {
+                    event.preventDefault();
+                    document.getElementById('buy-btn').click();
+                }
+                // S键卖出
+                else if (event.code === 'KeyS' && event.ctrlKey) {
+                    event.preventDefault();
+                    document.getElementById('sell-btn').click();
+                }
+                // R键刷新新闻
+                else if (event.code === 'KeyR' && event.ctrlKey) {
+                    event.preventDefault();
+                    document.getElementById('refresh-news-btn').click();
                 }
             });
         });
