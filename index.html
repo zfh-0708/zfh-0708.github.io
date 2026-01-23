@@ -104,10 +104,6 @@
             gap: 10px;
         }
 
-        .card h2 i {
-            color: var(--secondary);
-        }
-
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -169,10 +165,6 @@
             color: var(--danger);
         }
 
-        .price-stable {
-            color: var(--warning);
-        }
-
         .trend-indicator {
             display: inline-block;
             width: 0;
@@ -203,11 +195,6 @@
             border-radius: 8px;
             font-size: 1rem;
             transition: var(--transition);
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--secondary);
         }
 
         .btn {
@@ -253,12 +240,6 @@
             transform: translateY(-2px);
         }
 
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
         .history-list {
             max-height: 300px;
             overflow-y: auto;
@@ -278,10 +259,6 @@
 
         .history-item.danger {
             border-left-color: var(--danger);
-        }
-
-        .history-item.warning {
-            border-left-color: var(--warning);
         }
 
         .progress-bar {
@@ -319,18 +296,6 @@
             transform: translateX(0);
         }
 
-        .notification.success {
-            border-left: 4px solid var(--success);
-        }
-
-        .notification.error {
-            border-left: 4px solid var(--danger);
-        }
-
-        .notification.info {
-            border-left: 4px solid var(--secondary);
-        }
-
         .day-counter {
             font-size: 1.2rem;
             color: var(--primary);
@@ -343,10 +308,6 @@
             align-items: center;
             padding: 10px 0;
             border-bottom: 1px solid var(--light);
-        }
-
-        .inventory-item:last-child {
-            border-bottom: none;
         }
 
         .inventory-name {
@@ -392,28 +353,6 @@
             width: 90%;
         }
 
-        .game-over h2 {
-            color: var(--danger);
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
-        .game-over p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: var(--dark);
-        }
-
-        .achievement-badge {
-            display: inline-block;
-            background: var(--warning);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin: 5px;
-        }
-
         footer {
             text-align: center;
             margin-top: 30px;
@@ -421,359 +360,6 @@
             color: var(--dark);
             opacity: 0.7;
             font-size: 0.9rem;
-        }
-
-        .settings-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1002;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .settings-content {
-            background: white;
-            padding: 30px;
-            border-radius: var(--radius);
-            width: 90%;
-            max-width: 500px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .settings-content h2 {
-            color: var(--primary);
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .setting-item {
-            margin: 20px 0;
-        }
-
-        .setting-item label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark);
-        }
-
-        .setting-item input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid var(--light);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        .setting-item input:focus {
-            outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
-        }
-
-        .setting-item .range-value {
-            display: inline-block;
-            margin-left: 10px;
-            font-weight: bold;
-            color: var(--secondary);
-            min-width: 80px;
-        }
-
-        .setting-item small {
-            display: block;
-            margin-top: 5px;
-            color: var(--dark);
-            opacity: 0.7;
-            font-size: 0.85rem;
-        }
-
-        .settings-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 25px;
-        }
-
-        .settings-buttons .btn {
-            flex: 1;
-        }
-
-        #settings-btn {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            color: white;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        #settings-btn:hover {
-            background: linear-gradient(135deg, #8e44ad, #732d91);
-        }
-
-        .news-container {
-            background: white;
-            border-radius: var(--radius);
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: var(--shadow);
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
-        .news-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--light);
-        }
-        
-        .news-header h3 {
-            color: var(--primary);
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .news-filters {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .news-filter-btn {
-            padding: 6px 12px;
-            border: 1px solid var(--border-color);
-            background: white;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .news-filter-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-        
-        .news-filter-btn:hover:not(.active) {
-            background: var(--light);
-        }
-        
-        .news-item {
-            padding: 15px;
-            margin: 10px 0;
-            background: var(--light);
-            border-radius: 8px;
-            border-left: 4px solid #3498db;
-            transition: var(--transition);
-        }
-        
-        .news-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .news-item.positive {
-            border-left-color: var(--success);
-        }
-        
-        .news-item.negative {
-            border-left-color: var(--danger);
-        }
-        
-        .news-item.rumor {
-            border-left-color: var(--warning);
-        }
-        
-        .news-item.neutral {
-            border-left-color: #95a5a6;
-        }
-        
-        .news-title {
-            font-weight: 600;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .news-content {
-            color: var(--dark);
-            opacity: 0.8;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin-bottom: 10px;
-        }
-        
-        .news-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: #7f8c8d;
-        }
-        
-        .news-credibility {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .credibility-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-        
-        .credibility-high { background: var(--success); }
-        .credibility-medium { background: var(--warning); }
-        .credibility-low { background: var(--danger); }
-        
-        .news-time {
-            font-style: italic;
-        }
-        
-        .news-impact-tags {
-            display: flex;
-            gap: 5px;
-            margin-top: 8px;
-            flex-wrap: wrap;
-        }
-        
-        .news-impact-tag {
-            padding: 3px 8px;
-            background: rgba(52, 152, 219, 0.1);
-            border-radius: 10px;
-            font-size: 0.75rem;
-            color: var(--secondary);
-        }
-        
-        .news-ticker {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--primary);
-            color: white;
-            padding: 8px 0;
-            overflow: hidden;
-            z-index: 1000;
-        }
-        
-        .ticker-content {
-            display: inline-block;
-            white-space: nowrap;
-            padding-left: 100%;
-            animation: ticker 30s linear infinite;
-        }
-        
-        .ticker-item {
-            display: inline-block;
-            margin-right: 50px;
-            font-size: 0.9rem;
-        }
-        
-        .ticker-item .price-change {
-            font-weight: bold;
-            margin-left: 5px;
-        }
-        
-        .ticker-item .up { color: #2ecc71; }
-        .ticker-item .down { color: #e74c3c; }
-        
-        @keyframes ticker {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
-        
-        .news-notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: white;
-            border-left: 4px solid;
-            border-radius: var(--radius);
-            padding: 15px;
-            width: 300px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            transform: translateX(350px);
-            transition: transform 0.3s ease;
-            z-index: 1001;
-        }
-        
-        .news-notification.show {
-            transform: translateX(0);
-        }
-        
-        .news-notification.positive { border-left-color: var(--success); }
-        .news-notification.negative { border-left-color: var(--danger); }
-        .news-notification.urgent { border-left-color: var(--warning); }
-        
-        .quick-action-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .product-news {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 15px;
-            background: rgba(52, 152, 219, 0.05);
-            border-radius: 8px;
-            margin: 5px 0;
-            border-left: 3px solid;
-        }
-        
-        .product-news.up { border-left-color: var(--success); }
-        .product-news.down { border-left-color: var(--danger); }
-        
-        .product-news-name {
-            font-weight: 500;
-        }
-        
-        .product-news-price {
-            font-weight: bold;
-        }
-        
-        .price-up { color: var(--success); }
-        .price-down { color: var(--danger); }
-        
-        @media (max-width: 768px) {
-            .news-container {
-                margin-top: 10px;
-            }
-            
-            .news-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            
-            .news-filters {
-                width: 100%;
-            }
-            
-            .quick-action-buttons {
-                grid-template-columns: 1fr;
-            }
-            
-            .news-notification {
-                width: calc(100% - 40px);
-                right: 20px;
-                left: 20px;
-            }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -876,28 +462,6 @@
                 </div>
 
                 <div class="card">
-                    <h2><i class="fas fa-newspaper"></i> 市场新闻</h2>
-                    <div class="news-header">
-                        <div class="news-filters">
-                            <button class="news-filter-btn active" data-filter="all">全部</button>
-                            <button class="news-filter-btn" data-filter="positive">利好</button>
-                            <button class="news-filter-btn" data-filter="negative">利空</button>
-                            <button class="news-filter-btn" data-filter="rumor">传闻</button>
-                        </div>
-                    </div>
-                    <div class="news-container" id="news-container">
-                    </div>
-                    <div class="quick-action-buttons">
-                        <button class="btn" id="analyze-market" style="background: #9b59b6; color: white;">
-                            <i class="fas fa-chart-bar"></i> 市场分析
-                        </button>
-                        <button class="btn" id="trend-report" style="background: #1abc9c; color: white;">
-                            <i class="fas fa-trend-up"></i> 趋势报告
-                        </button>
-                    </div>
-                </div>
-
-                <div class="card">
                     <h2><i class="fas fa-bullhorn"></i> 市场事件</h2>
                     <div id="events-list">
                     </div>
@@ -908,22 +472,12 @@
                     <button class="btn btn-primary" id="next-day-btn" style="width: 100%; margin-bottom: 10px;">
                         <i class="fas fa-forward"></i> 进入下一天
                     </button>
-                    <button class="btn" id="settings-btn" style="width: 100%; margin-bottom: 10px; background: linear-gradient(135deg, #9b59b6, #8e44ad); color: white;">
-                        <i class="fas fa-cog"></i> 游戏设置
-                    </button>
                     <button class="btn" id="save-game-btn" style="width: 100%; margin-bottom: 10px; background: #95a5a6; color: white;">
                         <i class="fas fa-save"></i> 保存游戏
                     </button>
                     <button class="btn btn-danger" id="reset-game-btn" style="width: 100%;">
                         <i class="fas fa-redo"></i> 重新开始
                     </button>
-                </div>
-
-                <div class="card">
-                    <h2><i class="fas fa-trophy"></i> 成就</h2>
-                    <div id="achievements">
-                        <span class="achievement-badge">新手商人</span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -948,105 +502,10 @@
         </div>
     </div>
 
-    <div class="settings-modal" id="settings-modal">
-        <div class="settings-content">
-            <h2><i class="fas fa-cog"></i> 游戏设置</h2>
-            
-            <div class="setting-item">
-                <label for="initial-cash">初始现金设置</label>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <input type="range" id="initial-cash-slider" min="1000" max="1000000" step="1000" value="10000" style="flex: 1;">
-                    <span class="range-value">¥<span id="initial-cash-value">10,000</span></span>
-                </div>
-                <input type="number" id="initial-cash-input" min="1000" max="1000000" step="1000" value="10000" style="margin-top: 10px;">
-                <small>设置范围：¥1,000 - ¥1,000,000 (可在游戏中随时调整)</small>
-            </div>
-
-            <div class="setting-item">
-                <label for="target-amount">目标金额设置</label>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <input type="range" id="target-amount-slider" min="10000" max="5000000" step="10000" value="100000" style="flex: 1;">
-                    <span class="range-value">¥<span id="target-amount-value">100,000</span></span>
-                </div>
-                <input type="number" id="target-amount-input" min="10000" max="5000000" step="10000" value="100000" style="margin-top: 10px;">
-                <small>设置范围：¥10,000 - ¥5,000,000 (成为市场大亨的目标金额)</small>
-            </div>
-
-            <div class="setting-item">
-                <label for="game-speed">游戏速度 (每轮间隔秒数)</label>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <input type="range" id="game-speed-slider" min="1" max="10" step="1" value="3" style="flex: 1;">
-                    <span class="range-value"><span id="game-speed-value">3</span> 秒</span>
-                </div>
-                <small>调节进入下一天后价格变化的延迟时间 (1-10秒)</small>
-            </div>
-
-            <div class="setting-item">
-                <label>
-                    <input type="checkbox" id="auto-save">
-                    自动保存游戏进度
-                </label>
-                <small>启用后，游戏进度会自动保存到浏览器本地存储</small>
-            </div>
-
-            <div class="setting-item">
-                <label>
-                    <input type="checkbox" id="sound-effects" checked>
-                    启用音效
-                </label>
-                <small>交易、市场变化时播放提示音</small>
-            </div>
-
-            <div class="settings-buttons">
-                <button class="btn btn-success" id="apply-settings">
-                    <i class="fas fa-check"></i> 应用设置
-                </button>
-                <button class="btn btn-primary" id="apply-restart">
-                    <i class="fas fa-redo"></i> 应用并重新开始
-                </button>
-                <button class="btn" id="close-settings" style="background: #95a5a6; color: white;">
-                    <i class="fas fa-times"></i> 取消
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="news-notification" id="news-notification">
-        <div class="news-title" id="notification-title">
-            <i class="fas fa-newspaper"></i> 突发新闻
-        </div>
-        <div class="news-content" id="notification-content">新闻内容</div>
-        <div class="news-meta">
-            <div class="news-credibility">
-                <span>可信度:</span>
-                <span class="credibility-dot credibility-high"></span>
-                <span>高</span>
-            </div>
-            <div class="news-time" id="notification-time">刚刚</div>
-        </div>
-    </div>
-
-    <div class="news-ticker" id="news-ticker">
-        <div class="ticker-content" id="ticker-content">
-        </div>
-    </div>
-
     <script>
-        // 游戏设置变量
-        const gameSettings = {
-            initialCash: localStorage.getItem('marketTycoon_initialCash') ? 
-                        parseInt(localStorage.getItem('marketTycoon_initialCash')) : 10000,
-            targetAmount: localStorage.getItem('marketTycoon_targetAmount') ? 
-                         parseInt(localStorage.getItem('marketTycoon_targetAmount')) : 100000,
-            gameSpeed: localStorage.getItem('marketTycoon_gameSpeed') ? 
-                      parseInt(localStorage.getItem('marketTycoon_gameSpeed')) : 3,
-            autoSave: localStorage.getItem('marketTycoon_autoSave') === 'true',
-            soundEffects: localStorage.getItem('marketTycoon_soundEffects') !== 'false'
-        };
-
         // 游戏状态变量
         const gameState = {
-            cash: gameSettings.initialCash,
+            cash: 10000,
             day: 1,
             reputation: 50,
             inventory: {},
@@ -1066,158 +525,8 @@
             { id: 'crypto', name: '加密货币', basePrice: 50, volatility: 0.4, icon: 'fa-bitcoin-sign' }
         ];
 
-        // 市场事件
-        const marketEvents = [
-            { 
-                name: '经济繁荣', 
-                effect: { type: 'multiplier', value: 1.3, duration: 3 },
-                description: '经济蓬勃发展，所有商品价格上涨30%！',
-                icon: 'fa-chart-line',
-                color: '#27ae60'
-            },
-            { 
-                name: '经济衰退', 
-                effect: { type: 'multiplier', value: 0.8, duration: 3 },
-                description: '经济衰退，所有商品价格下跌20%',
-                icon: 'fa-chart-line-down',
-                color: '#e74c3c'
-            },
-            { 
-                name: '黄金热潮', 
-                effect: { type: 'specific', product: 'gold', multiplier: 1.5, duration: 2 },
-                description: '黄金价格飙升50%！',
-                icon: 'fa-gem',
-                color: '#f39c12'
-            },
-            { 
-                name: '原油危机', 
-                effect: { type: 'specific', product: 'oil', multiplier: 1.8, duration: 2 },
-                description: '原油供应紧张，价格上涨80%',
-                icon: 'fa-gas-pump',
-                color: '#e74c3c'
-            },
-            { 
-                name: '科技突破', 
-                effect: { type: 'specific', product: 'tech', multiplier: 1.6, duration: 3 },
-                description: '科技行业重大突破，科技股大涨',
-                icon: 'fa-microchip',
-                color: '#3498db'
-            }
-        ];
-
-        // 新闻数据库
-        const newsDatabase = [
-            {
-                id: 'news_oil_discovery',
-                title: '大型油田被发现',
-                content: '地质学家在北部地区发现超大型油田，预计储量惊人，可能大幅增加全球原油供应。',
-                type: 'positive',
-                credibility: 0.8,
-                impacts: ['oil'],
-                effect: { product: 'oil', multiplier: 0.7, duration: 3 },
-                triggerCondition: () => Math.random() < 0.1
-            },
-            {
-                id: 'news_tech_breakthrough',
-                title: '科技公司发布革命性产品',
-                content: '领先科技公司宣布突破性技术创新，市场预计将带动整个科技板块增长。',
-                type: 'positive',
-                credibility: 0.9,
-                impacts: ['tech'],
-                effect: { product: 'tech', multiplier: 1.5, duration: 4 },
-                triggerCondition: () => Math.random() < 0.15
-            },
-            {
-                id: 'news_gold_demand',
-                title: '央行增持黄金储备',
-                content: '多个国家央行宣布将大幅增加黄金储备，作为避险资产配置。',
-                type: 'positive',
-                credibility: 0.85,
-                impacts: ['gold'],
-                effect: { product: 'gold', multiplier: 1.4, duration: 3 },
-                triggerCondition: () => Math.random() < 0.12
-            },
-            {
-                id: 'news_economic_recession',
-                title: '经济衰退信号显现',
-                content: '最新经济数据显示多个指标下滑，分析师警告可能出现经济衰退。',
-                type: 'negative',
-                credibility: 0.75,
-                impacts: ['all'],
-                effect: { type: 'multiplier', value: 0.85, duration: 5 },
-                triggerCondition: () => Math.random() < 0.1
-            },
-            {
-                id: 'news_real_estate_bubble',
-                title: '房地产泡沫警告',
-                content: '权威机构发布报告，警告部分地区房地产市场存在过热风险。',
-                type: 'negative',
-                credibility: 0.7,
-                impacts: ['real_estate'],
-                effect: { product: 'real_estate', multiplier: 0.8, duration: 4 },
-                triggerCondition: () => Math.random() < 0.08
-            },
-            {
-                id: 'news_crypto_regulation',
-                title: '加密货币监管加强',
-                content: '多国政府宣布将加强对加密货币的监管力度，可能影响市场流动性。',
-                type: 'negative',
-                credibility: 0.8,
-                impacts: ['crypto'],
-                effect: { product: 'crypto', multiplier: 0.6, duration: 3 },
-                triggerCondition: () => Math.random() < 0.1
-            },
-            {
-                id: 'rumor_grain_shortage',
-                title: '传闻：主要产粮区遭遇灾害',
-                content: '市场传闻称几个主要粮食产区遭遇极端天气，但官方尚未证实。',
-                type: 'rumor',
-                credibility: 0.4,
-                impacts: ['grain'],
-                effect: { product: 'grain', multiplier: 1.3, duration: 2 },
-                triggerCondition: () => Math.random() < 0.2
-            },
-            {
-                id: 'rumor_tech_merger',
-                title: '内部消息：科技巨头考虑合并',
-                content: '据匿名内部人士透露，两家科技巨头正在探讨合并可能性。',
-                type: 'rumor',
-                credibility: 0.3,
-                impacts: ['tech'],
-                effect: { product: 'tech', multiplier: 1.2, duration: 2 },
-                triggerCondition: () => Math.random() < 0.25
-            },
-            {
-                id: 'news_fed_meeting',
-                title: '美联储即将召开利率会议',
-                content: '市场密切关注即将召开的美联储会议，预期将讨论利率政策。',
-                type: 'neutral',
-                credibility: 0.95,
-                impacts: ['all'],
-                effect: { volatility: 1.5, duration: 2 },
-                triggerCondition: () => gameState.day % 10 === 0
-            },
-            {
-                id: 'news_seasonal_demand',
-                title: '季节性需求变化预期',
-                content: '分析指出，随着季节变化，部分商品需求将出现周期性调整。',
-                type: 'neutral',
-                credibility: 0.8,
-                impacts: ['oil', 'grain'],
-                effect: { seasonality: true, duration: 5 },
-                triggerCondition: () => Math.random() < 0.15
-            }
-        ];
-
-        // 新闻历史记录
-        let newsHistory = [];
-        let currentNewsFilter = 'all';
-
         // 初始化游戏
         function initGame() {
-            // 使用设置中的初始现金
-            gameState.cash = gameSettings.initialCash;
-            
             // 初始化商品价格
             products.forEach(product => {
                 product.currentPrice = product.basePrice;
@@ -1230,22 +539,11 @@
                 gameState.inventory[product.id] = 0;
             });
 
-            // 加载保存的游戏（如果开启自动保存）
-            if (gameSettings.autoSave) {
-                loadSavedGame();
-            } else {
-                // 初始事件
-                addMarketEvent('欢迎来到市场大亨！开始您的交易之旅吧！', 'info');
-                addMarketEvent('提示：关注价格趋势，低买高卖才能盈利！', 'info');
-            }
+            // 初始事件
+            addMarketEvent('欢迎来到市场大亨！开始您的交易之旅吧！', 'info');
+            addMarketEvent('提示：关注价格趋势，低买高卖才能盈利！', 'info');
 
             updateUI();
-            loadSettings();
-            
-            // 生成初始新闻
-            setTimeout(() => {
-                generateDailyNews();
-            }, 1000);
         }
 
         // 更新商品价格
@@ -1256,15 +554,6 @@
                 // 基础波动
                 let changePercent = (Math.random() - 0.5) * 2 * product.volatility;
                 
-                // 市场事件影响
-                gameState.marketEvents.forEach(event => {
-                    if (event.effect.type === 'multiplier') {
-                        changePercent += (event.effect.value - 1);
-                    } else if (event.effect.type === 'specific' && event.effect.product === product.id) {
-                        changePercent += (event.effect.multiplier - 1);
-                    }
-                });
-
                 // 计算新价格
                 const newPrice = Math.max(10, Math.round(oldPrice * (1 + changePercent)));
                 
@@ -1279,26 +568,18 @@
                 
                 product.currentPrice = newPrice;
                 product.priceHistory.push(newPrice);
+            });
+
+            // 随机触发市场事件
+            if (Math.random() < 0.3) {
+                const events = [
+                    { name: '经济繁荣', effect: 1.3, description: '经济蓬勃发展，所有商品价格上涨30%！' },
+                    { name: '经济衰退', effect: 0.8, description: '经济衰退，所有商品价格下跌20%' },
+                    { name: '黄金热潮', effect: 1.5, description: '黄金价格飙升50%！', product: 'gold' },
+                    { name: '原油危机', effect: 1.8, description: '原油供应紧张，价格上涨80%', product: 'oil' }
+                ];
                 
-                // 保持价格历史长度
-                if (product.priceHistory.length > 10) {
-                    product.priceHistory.shift();
-                }
-            });
-
-            // 更新市场事件持续时间
-            gameState.marketEvents = gameState.marketEvents.filter(event => {
-                if (event.effect.duration) {
-                    event.effect.duration--;
-                    return event.effect.duration > 0;
-                }
-                return true;
-            });
-
-            // 随机触发新事件
-            if (Math.random() < 0.3) { // 30%概率触发事件
-                const randomEvent = marketEvents[Math.floor(Math.random() * marketEvents.length)];
-                gameState.marketEvents.push({...randomEvent});
+                const randomEvent = events[Math.floor(Math.random() * events.length)];
                 addMarketEvent(`市场事件: ${randomEvent.description}`, 'info');
             }
         }
@@ -1306,15 +587,12 @@
         // 进入下一天
         function nextDay() {
             gameState.day++;
-            generateDailyNews();
             updatePrices();
             updateUI();
             
             // 检查游戏结束条件
             if (gameState.cash <= 0 && calculateTotalAssets() <= 0) {
                 endGame('您的现金和资产都已耗尽！');
-            } else if (gameState.day > 365) {
-                endGame('一年的交易期已结束！');
             }
         }
 
@@ -1428,15 +706,10 @@
                 showNotification('成就解锁：富有商人！', 'success');
             }
             
-            if (totalAssets >= gameSettings.targetAmount && !gameState.achievements.includes('market_tycoon')) {
+            if (totalAssets >= 100000 && !gameState.achievements.includes('market_tycoon')) {
                 gameState.achievements.push('market_tycoon');
-                showNotification(`恭喜！您已达成 ¥${gameSettings.targetAmount.toLocaleString()} 的目标，成为真正的市场大亨！`, 'success');
-                endGame(`恭喜！您已达成 ¥${gameSettings.targetAmount.toLocaleString()} 的目标，成为真正的市场大亨！`);
-            }
-            
-            if (gameState.day >= 30 && !gameState.achievements.includes('seasoned_trader')) {
-                gameState.achievements.push('seasoned_trader');
-                showNotification('成就解锁：资深商人！', 'success');
+                showNotification('成就解锁：市场大亨！', 'success');
+                endGame('恭喜！您已达成目标，成为真正的市场大亨！');
             }
         }
 
@@ -1475,8 +748,8 @@
 
         // 重新开始游戏
         function restartGame() {
-            // 使用设置中的初始现金
-            gameState.cash = gameSettings.initialCash;
+            // 重置游戏状态
+            gameState.cash = 10000;
             gameState.day = 1;
             gameState.reputation = 50;
             gameState.history = [];
@@ -1497,8 +770,6 @@
             
             // 清空事件列表
             document.getElementById('events-list').innerHTML = '';
-            document.getElementById('news-container').innerHTML = '';
-            newsHistory = [];
             
             // 添加初始事件
             addMarketEvent('欢迎来到市场大亨！开始您的交易之旅吧！', 'info');
@@ -1508,11 +779,6 @@
             document.getElementById('game-over').style.display = 'none';
             
             updateUI();
-            
-            // 清除自动保存
-            localStorage.removeItem('marketTycoon_saveData');
-            
-            showNotification('游戏已重新开始！', 'success');
         }
 
         // 更新UI
@@ -1528,8 +794,8 @@
             // 更新天数
             document.getElementById('day').textContent = `第 ${gameState.day} 天`;
             
-            // 更新进度条（使用设置的目标金额）
-            const progress = Math.min(100, (totalAssets / gameSettings.targetAmount) * 100);
+            // 更新进度条
+            const progress = Math.min(100, (totalAssets / 100000) * 100);
             document.getElementById('progress-bar').style.width = `${progress}%`;
             
             // 更新声望
@@ -1635,34 +901,8 @@
                 historyList.innerHTML = '<div style="text-align: center; color: #7f8c8d; padding: 20px;">暂无交易记录</div>';
             }
             
-            // 更新成就显示
-            const achievements = document.getElementById('achievements');
-            achievements.innerHTML = '';
-            
-            const achievementMap = {
-                'newbie_trader': '新手商人',
-                'seasoned_trader': '资深商人',
-                'wealthy_trader': '富有商人',
-                'market_tycoon': '市场大亨'
-            };
-            
-            gameState.achievements.forEach(achievement => {
-                if (achievementMap[achievement]) {
-                    const badge = document.createElement('span');
-                    badge.className = 'achievement-badge';
-                    badge.textContent = achievementMap[achievement];
-                    achievements.appendChild(badge);
-                }
-            });
-            
             // 更新预估价格
             updateEstimatedPrice();
-            updateNewsDisplay();
-            
-            // 自动保存
-            if (gameSettings.autoSave) {
-                saveGameToStorage();
-            }
         }
 
         // 快速买入
@@ -1705,330 +945,74 @@
             }
         }
 
-        // 加载设置
-        function loadSettings() {
-            // 加载设置到UI
-            document.getElementById('initial-cash-slider').value = gameSettings.initialCash;
-            document.getElementById('initial-cash-input').value = gameSettings.initialCash;
-            document.getElementById('initial-cash-value').textContent = gameSettings.initialCash.toLocaleString();
+        // 事件监听器
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化游戏
+            initGame();
             
-            document.getElementById('target-amount-slider').value = gameSettings.targetAmount;
-            document.getElementById('target-amount-input').value = gameSettings.targetAmount;
-            document.getElementById('target-amount-value').textContent = gameSettings.targetAmount.toLocaleString();
-            
-            document.getElementById('game-speed-slider').value = gameSettings.gameSpeed;
-            document.getElementById('game-speed-value').textContent = gameSettings.gameSpeed;
-            
-            document.getElementById('auto-save').checked = gameSettings.autoSave;
-            document.getElementById('sound-effects').checked = gameSettings.soundEffects;
-        }
-
-        // 保存设置
-        function saveSettings() {
-            // 从UI获取设置值
-            gameSettings.initialCash = parseInt(document.getElementById('initial-cash-input').value);
-            gameSettings.targetAmount = parseInt(document.getElementById('target-amount-input').value);
-            gameSettings.gameSpeed = parseInt(document.getElementById('game-speed-slider').value);
-            gameSettings.autoSave = document.getElementById('auto-save').checked;
-            gameSettings.soundEffects = document.getElementById('sound-effects').checked;
-            
-            // 保存到本地存储
-            localStorage.setItem('marketTycoon_initialCash', gameSettings.initialCash);
-            localStorage.setItem('marketTycoon_targetAmount', gameSettings.targetAmount);
-            localStorage.setItem('marketTycoon_gameSpeed', gameSettings.gameSpeed);
-            localStorage.setItem('marketTycoon_autoSave', gameSettings.autoSave);
-            localStorage.setItem('marketTycoon_soundEffects', gameSettings.soundEffects);
-            
-            showNotification('游戏设置已保存！', 'success');
-        }
-
-        // 应用设置
-        function applySettings(restart = false) {
-            saveSettings();
-            
-            // 更新游戏中的目标金额显示
-            document.querySelector('#progress-bar').parentNode.nextElementSibling.innerHTML = 
-                `目标：¥${gameSettings.targetAmount.toLocaleString()}`;
-            
-            // 重新计算进度条
-            const progress = Math.min(100, (calculateTotalAssets() / gameSettings.targetAmount) * 100);
-            document.getElementById('progress-bar').style.width = `${progress}%`;
-            
-            if (restart) {
-                if (confirm('应用设置并重新开始游戏吗？当前进度将丢失。')) {
-                    restartGame();
-                }
-            } else {
-                // 更新当前现金显示（但不重置游戏）
-                updateUI();
-                showNotification('设置已应用！', 'success');
-            }
-        }
-
-        // 保存游戏到本地存储
-        function saveGameToStorage() {
-            if (!gameSettings.autoSave) return;
-            
-            const saveData = {
-                gameState: gameState,
-                products: products.map(product => ({
-                    id: product.id,
-                    currentPrice: product.currentPrice,
-                    trend: product.trend,
-                    priceHistory: product.priceHistory
-                })),
-                newsHistory: newsHistory,
-                timestamp: new Date().getTime()
-            };
-            
-            localStorage.setItem('marketTycoon_saveData', JSON.stringify(saveData));
-        }
-
-        // 从本地存储加载游戏
-        function loadSavedGame() {
-            const saved = localStorage.getItem('marketTycoon_saveData');
-            if (saved) {
-                try {
-                    const saveData = JSON.parse(saved);
-                    
-                    // 恢复游戏状态
-                    Object.assign(gameState, saveData.gameState);
-                    
-                    // 恢复商品状态
-                    saveData.products.forEach(savedProduct => {
-                        const product = products.find(p => p.id === savedProduct.id);
-                        if (product) {
-                            product.currentPrice = savedProduct.currentPrice;
-                            product.trend = savedProduct.trend;
-                            product.priceHistory = savedProduct.priceHistory;
-                        }
-                    });
-                    
-                    // 恢复新闻历史
-                    newsHistory = saveData.newsHistory || [];
-                    
-                    // 检查时间（可选：如果保存超过24小时，可以提示）
-                    const savedTime = new Date(saveData.timestamp);
-                    const currentTime = new Date();
-                    const hoursDiff = (currentTime - savedTime) / (1000 * 60 * 60);
-                    
-                    if (hoursDiff < 24) {
-                        addMarketEvent('已加载上次保存的游戏进度', 'info');
-                    } else {
-                        addMarketEvent('加载了较旧的游戏进度（超过24小时）', 'warning');
-                    }
-                    
-                    updateNewsDisplay();
-                    return true;
-                } catch (e) {
-                    console.error('加载游戏失败:', e);
-                    addMarketEvent('欢迎来到市场大亨！开始您的交易之旅吧！', 'info');
-                }
-            }
-            return false;
-        }
-
-        // 生成每日新闻
-        function generateDailyNews() {
-            const todayNews = [];
-            
-            // 检查每个新闻的触发条件
-            newsDatabase.forEach(news => {
-                if (news.triggerCondition()) {
-                    const newsCopy = { ...news };
-                    newsCopy.timestamp = new Date().toLocaleTimeString();
-                    newsCopy.day = gameState.day;
-                    
-                    // 添加随机干扰 - 30%的概率新闻效果会相反
-                    if (Math.random() < 0.3) {
-                        newsCopy.isMisleading = true;
-                        if (newsCopy.effect.multiplier) {
-                            // 如果是正面新闻，可能变成负面，反之亦然
-                            if (newsCopy.type === 'positive') {
-                                newsCopy.effect.multiplier = 1 / newsCopy.effect.multiplier;
-                                newsCopy.actualType = 'negative';
-                            } else if (newsCopy.type === 'negative') {
-                                newsCopy.effect.multiplier = 1 / newsCopy.effect.multiplier;
-                                newsCopy.actualType = 'positive';
-                            }
-                        }
-                    }
-                    
-                    // 添加新闻效果
-                    applyNewsEffect(newsCopy);
-                    
-                    // 添加到今日新闻和历史
-                    todayNews.push(newsCopy);
-                    newsHistory.unshift(newsCopy);
-                    
-                    // 显示重要新闻通知
-                    if (newsCopy.credibility > 0.7 || newsCopy.type === 'rumor') {
-                        showNewsNotification(newsCopy);
-                    }
+            // 买入按钮点击事件
+            document.getElementById('buy-btn').addEventListener('click', function() {
+                const productId = document.getElementById('product-select').value;
+                const quantity = parseInt(document.getElementById('trade-quantity').value) || 1;
+                
+                if (productId && quantity > 0) {
+                    buyProduct(productId, quantity);
+                } else {
+                    showNotification('请选择商品并输入有效数量！', 'error');
                 }
             });
             
-            // 如果今天没有自动生成的新闻，生成一条随机价格变动的新闻
-            if (todayNews.length === 0 && Math.random() < 0.7) {
-                const randomProduct = products[Math.floor(Math.random() * products.length)];
-                const isUp = Math.random() > 0.5;
-                const changePercent = (Math.random() * 0.2 + 0.05) * (isUp ? 1 : -1);
+            // 卖出按钮点击事件
+            document.getElementById('sell-btn').addEventListener('click', function() {
+                const productId = document.getElementById('product-select').value;
+                const quantity = parseInt(document.getElementById('trade-quantity').value) || 1;
                 
-                const priceNews = {
-                    id: 'price_update_' + Date.now(),
-                    title: `${randomProduct.name}价格${isUp ? '看涨' : '看跌'}信号`,
-                    content: `技术分析显示${randomProduct.name}出现${isUp ? '强劲' : '疲软'}走势，${
-                        isUp ? '多个指标显示买入信号' : '分析师建议谨慎持有'
-                    }。`,
-                    type: isUp ? 'positive' : 'negative',
-                    credibility: 0.6 + Math.random() * 0.3,
-                    impacts: [randomProduct.id],
-                    effect: { 
-                        product: randomProduct.id, 
-                        multiplier: 1 + changePercent, 
-                        duration: 2 
-                    },
-                    timestamp: new Date().toLocaleTimeString(),
-                    day: gameState.day
-                };
-                
-                todayNews.push(priceNews);
-                newsHistory.unshift(priceNews);
-            }
-            
-            // 限制历史记录长度
-            if (newsHistory.length > 50) {
-                newsHistory = newsHistory.slice(0, 50);
-            }
-            
-            updateNewsDisplay();
-            return todayNews;
-        }
-
-        // 应用新闻效果
-        function applyNewsEffect(news) {
-            if (news.effect) {
-                if (news.effect.multiplier) {
-                    // 商品特定效果
-                    if (news.effect.product) {
-                        const product = products.find(p => p.id === news.effect.product);
-                        if (product) {
-                            // 添加到市场事件
-                            gameState.marketEvents.push({
-                                name: `新闻影响: ${news.title}`,
-                                effect: { 
-                                    type: 'specific', 
-                                    product: news.effect.product, 
-                                    multiplier: news.effect.multiplier, 
-                                    duration: news.effect.duration || 3 
-                                },
-                                description: news.content,
-                                icon: 'fa-newspaper',
-                                color: news.type === 'positive' ? '#27ae60' : 
-                                       news.type === 'negative' ? '#e74c3c' : '#f39c12'
-                            });
-                        }
-                    }
-                    // 全局效果
-                    else if (news.effect.type === 'multiplier') {
-                        gameState.marketEvents.push({
-                            name: `新闻影响: ${news.title}`,
-                            effect: news.effect,
-                            description: news.content,
-                            icon: 'fa-newspaper',
-                            color: '#3498db'
-                        });
-                    }
+                if (productId && quantity > 0) {
+                    sellProduct(productId, quantity);
+                } else {
+                    showNotification('请选择商品并输入有效数量！', 'error');
                 }
-                // 波动性增加
-                else if (news.effect.volatility) {
-                    // 全局增加波动性
-                    products.forEach(product => {
-                        product.volatility *= news.effect.volatility;
-                        // 3天后恢复
-                        setTimeout(() => {
-                            product.volatility /= news.effect.volatility;
-                        }, (news.effect.duration || 2) * 1000);
-                    });
+            });
+            
+            // 下一天按钮点击事件
+            document.getElementById('next-day-btn').addEventListener('click', function() {
+                nextDay();
+            });
+            
+            // 重新开始按钮点击事件
+            document.getElementById('restart-btn').addEventListener('click', function() {
+                restartGame();
+            });
+            
+            // 重置游戏按钮点击事件
+            document.getElementById('reset-game-btn').addEventListener('click', function() {
+                if (confirm('确定要重新开始游戏吗？所有进度都将丢失！')) {
+                    restartGame();
                 }
-            }
-        }
-
-        // 显示新闻通知
-        function showNewsNotification(news) {
-            const notification = document.getElementById('news-notification');
-            const title = document.getElementById('notification-title');
-            const content = document.getElementById('notification-content');
-            const time = document.getElementById('notification-time');
+            });
             
-            // 设置内容
-            title.innerHTML = `<i class="fas fa-${getNewsIcon(news.type)}"></i> ${
-                news.isMisleading ? '[误导性] ' : ''
-            }${news.title}`;
-            content.textContent = news.content;
-            time.textContent = `${news.timestamp} · 第${news.day}天`;
+            // 保存游戏按钮点击事件
+            document.getElementById('save-game-btn').addEventListener('click', function() {
+                showNotification('游戏已保存！（演示功能）', 'success');
+            });
             
-            // 设置样式
-            notification.className = `news-notification ${news.type}`;
-            if (news.isMisleading) notification.classList.add('urgent');
+            // 输入框变化事件
+            document.getElementById('product-select').addEventListener('change', updateEstimatedPrice);
+            document.getElementById('trade-quantity').addEventListener('input', updateEstimatedPrice);
             
-            // 显示通知
-            notification.classList.add('show');
-            
-            // 5秒后隐藏
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 5000);
-        }
-
-        // 获取新闻图标
-        function getNewsIcon(type) {
-            switch(type) {
-                case 'positive': return 'arrow-up';
-                case 'negative': return 'arrow-down';
-                case 'rumor': return 'comment-alt';
-                default: return 'newspaper';
-            }
-        }
-
-        // 更新新闻显示
-        function updateNewsDisplay() {
-            const container = document.getElementById('news-container');
-            if (!container) return;
-            
-            // 过滤新闻
-            let filteredNews = [...newsHistory];
-            if (currentNewsFilter !== 'all') {
-                filteredNews = filteredNews.filter(news => news.type === currentNewsFilter);
-            }
-            
-            // 生成HTML
-            let newsHTML = '';
-            
-            filteredNews.slice(0, 10).forEach(news => {
-                const credibilityText = news.credibility > 0.7 ? '高' : 
-                                      news.credibility > 0.4 ? '中' : '低';
-                const credibilityClass = news.credibility > 0.7 ? 'high' : 
-                                       news.credibility > 0.4 ? 'medium' : 'low';
-                
-                // 获取影响标签
-                let impactTags = '';
-                if (news.impacts && news.impacts.length > 0) {
-                    if (news.impacts[0] === 'all') {
-                        impactTags = '<span class="news-impact-tag">全市场</span>';
-                    } else {
-                        news.impacts.forEach(impact => {
-                            const product = products.find(p => p.id === impact);
-                            if (product) {
-                                impactTags += `<span class="news-impact-tag">${product.name}</span>`;
-                            }
-                        });
-                    }
+            // 快捷按键
+            document.addEventListener('keydown', function(event) {
+                // 空格键进入下一天
+                if (event.code === 'Space') {
+                    event.preventDefault();
+                    document.getElementById('next-day-btn').click();
                 }
-                
-                newsHTML += `
-                    <div class="news-item ${news.type} ${news.isMisleading ? 'rumor' : ''}">
-                        <div class="news-title">
-                            <i class="fas fa-${getNewsIcon(news.type)}"></i>
-                            ${news.title}
-                            ${news.isMisleading ? '<span style="color:#e74c3c; fon
+            });
+        });
+
+        // 暴露函数给全局作用域
+        window.quickBuy = quickBuy;
+        window.quickSell = quickSell;
+    </script>
+</body>
+</html>
