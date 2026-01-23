@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>市场大亨 - 经济模拟经营游戏（新闻系统版）</title>
+    <title>市场大亨 - 经济模拟经营游戏（带初始现金设置）</title>
     <style>
         * {
             margin: 0;
@@ -477,6 +477,117 @@
             margin: 5px;
         }
 
+        /* 新增：初始现金设置模态框样式 */
+        .cash-setup-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1002;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cash-setup-content {
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .cash-setup-content h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .cash-setup-content p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: var(--dark);
+        }
+
+        .cash-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .cash-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cash-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+        }
+
+        .cash-option label {
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .cash-input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .cash-input-container label {
+            font-size: 1.1rem;
+            text-align: left;
+        }
+
+        .cash-input-container input {
+            padding: 12px;
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .cash-input-container input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .cash-options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .cash-option-btn {
+            padding: 15px;
+            background: var(--light);
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .cash-option-btn:hover {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .cash-option-btn.selected {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
         footer {
             text-align: center;
             margin-top: 30px;
@@ -489,9 +600,48 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
+    <!-- 初始现金设置模态框 -->
+    <div class="cash-setup-modal" id="cashSetupModal">
+        <div class="cash-setup-content">
+            <h2><i class="fas fa-coins"></i> 设置初始现金</h2>
+            <p>请选择您的初始现金金额，这将影响游戏的难度和体验。</p>
+            
+            <div class="cash-options-grid">
+                <button class="cash-option-btn" data-amount="5000">
+                    ¥5,000<br><small>困难模式</small>
+                </button>
+                <button class="cash-option-btn" data-amount="10000">
+                    ¥10,000<br><small>普通模式</small>
+                </button>
+                <button class="cash-option-btn" data-amount="20000">
+                    ¥20,000<br><small>简单模式</small>
+                </button>
+                <button class="cash-option-btn" data-amount="50000">
+                    ¥50,000<br><small>轻松模式</small>
+                </button>
+            </div>
+            
+            <div class="cash-input-container">
+                <label for="customCash">或自定义金额 (¥1,000 - ¥1,000,000)：</label>
+                <input type="number" id="customCash" min="1000" max="1000000" value="10000" step="1000">
+            </div>
+            
+            <div style="margin-top: 25px;">
+                <button class="btn btn-primary" id="startGameBtn" style="padding: 12px 40px;">
+                    <i class="fas fa-play"></i> 开始游戏
+                </button>
+            </div>
+            
+            <div style="margin-top: 15px; font-size: 0.9rem; color: #7f8c8d;">
+                目标：积累¥100,000成为市场大亨！
+            </div>
+        </div>
+    </div>
+
+    <!-- 主游戏界面（初始时隐藏） -->
+    <div class="container" id="gameContainer" style="display: none;">
         <header>
-            <h1><i class="fas fa-chart-line"></i> 市场大亨（新闻系统版）</h1>
+            <h1><i class="fas fa-chart-line"></i> 市场大亨（带初始现金设置）</h1>
             <p class="subtitle">模拟经营游戏 - 低买高卖，分析新闻，成为市场主宰！</p>
         </header>
 
@@ -673,7 +823,9 @@
             achievements: ['newbie_trader'],
             marketEvents: [],
             todaysNews: [],  // 今日新闻
-            newsHistory: []  // 新闻历史记录
+            newsHistory: [],  // 新闻历史记录
+            initialCash: 10000, // 新增：记录初始现金
+            gameMode: '普通模式' // 新增：记录游戏模式
         };
 
         // 商品数据
@@ -1060,7 +1212,12 @@
         ];
 
         // 初始化游戏
-        function initGame() {
+        function initGame(initialCash, gameMode) {
+            // 设置初始现金
+            gameState.cash = initialCash;
+            gameState.initialCash = initialCash;
+            gameState.gameMode = gameMode;
+            
             // 初始化商品价格
             products.forEach(product => {
                 product.currentPrice = product.basePrice;
@@ -1077,7 +1234,7 @@
             generateDailyNews();
 
             // 初始事件
-            addMarketEvent('欢迎来到市场大亨！开始您的交易之旅吧！', 'info');
+            addMarketEvent(`欢迎来到市场大亨！初始现金: ¥${initialCash.toLocaleString()} (${gameMode})`, 'info');
             addMarketEvent('提示：财经新闻可能提供市场线索，但需谨慎判断其可靠性！', 'info');
 
             updateUI();
@@ -1414,6 +1571,10 @@
 
         // 重新开始游戏
         function restartGame() {
+            // 显示现金设置界面
+            document.getElementById('gameContainer').style.display = 'none';
+            document.getElementById('cashSetupModal').style.display = 'flex';
+            
             // 重置游戏状态
             gameState.cash = 10000;
             gameState.day = 1;
@@ -1423,6 +1584,8 @@
             gameState.marketEvents = [];
             gameState.todaysNews = [];
             gameState.newsHistory = [];
+            gameState.initialCash = 10000;
+            gameState.gameMode = '普通模式';
             
             // 重置库存
             products.forEach(product => {
@@ -1439,17 +1602,8 @@
             // 清空事件列表
             document.getElementById('events-list').innerHTML = '';
             
-            // 生成初始新闻
-            generateDailyNews();
-            
-            // 添加初始事件
-            addMarketEvent('欢迎来到市场大亨！开始您的交易之旅吧！', 'info');
-            addMarketEvent('提示：财经新闻可能提供市场线索，但需谨慎判断其可靠性！', 'info');
-            
             // 隐藏游戏结束弹窗
             document.getElementById('game-over').style.display = 'none';
-            
-            updateUI();
         }
 
         // 更新UI
@@ -1684,8 +1838,64 @@
 
         // 事件监听器
         document.addEventListener('DOMContentLoaded', function() {
-            // 初始化游戏
-            initGame();
+            // 现金设置按钮事件
+            const cashOptionBtns = document.querySelectorAll('.cash-option-btn');
+            const customCashInput = document.getElementById('customCash');
+            let selectedCash = 10000;
+            let selectedMode = '普通模式';
+            
+            cashOptionBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 移除所有按钮的选中状态
+                    cashOptionBtns.forEach(b => b.classList.remove('selected'));
+                    
+                    // 添加当前按钮的选中状态
+                    this.classList.add('selected');
+                    
+                    // 获取选中的现金金额
+                    selectedCash = parseInt(this.getAttribute('data-amount'));
+                    selectedMode = this.querySelector('small').textContent;
+                    
+                    // 更新自定义输入框的值
+                    customCashInput.value = selectedCash;
+                });
+            });
+            
+            // 自定义输入框变化事件
+            customCashInput.addEventListener('input', function() {
+                const value = parseInt(this.value) || 10000;
+                
+                // 限制范围
+                if (value < 1000) this.value = 1000;
+                if (value > 1000000) this.value = 1000000;
+                
+                selectedCash = parseInt(this.value);
+                selectedMode = '自定义模式';
+                
+                // 移除所有按钮的选中状态
+                cashOptionBtns.forEach(b => b.classList.remove('selected'));
+            });
+            
+            // 开始游戏按钮事件
+            document.getElementById('startGameBtn').addEventListener('click', function() {
+                // 验证输入
+                if (selectedCash < 1000 || selectedCash > 1000000) {
+                    showNotification('请输入¥1,000到¥1,000,000之间的金额！', 'error');
+                    return;
+                }
+                
+                // 隐藏现金设置界面
+                document.getElementById('cashSetupModal').style.display = 'none';
+                
+                // 显示游戏界面
+                document.getElementById('gameContainer').style.display = 'block';
+                
+                // 初始化游戏
+                initGame(selectedCash, selectedMode);
+                
+                // 显示欢迎消息
+                showNotification(`游戏开始！初始现金: ¥${selectedCash.toLocaleString()} (${selectedMode})`, 'success');
+            });
             
             // 买入按钮点击事件
             document.getElementById('buy-btn').addEventListener('click', function() {
@@ -1766,6 +1976,9 @@
                     document.getElementById('refresh-news-btn').click();
                 }
             });
+            
+            // 设置默认选中的现金选项（普通模式）
+            cashOptionBtns[1].classList.add('selected');
         });
 
         // 暴露函数给全局作用域
