@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>市场大亨 - 经济模拟经营游戏（带初始现金设置）</title>
+    <title>市场大亨 - 经济模拟经营游戏（完整版）</title>
     <style>
         * {
             margin: 0;
@@ -426,6 +426,11 @@
             font-weight: 500;
         }
 
+        .inventory-avg-cost {
+            color: var(--info);
+            font-weight: 500;
+        }
+
         .action-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -467,17 +472,6 @@
             color: var(--dark);
         }
 
-        .achievement-badge {
-            display: inline-block;
-            background: var(--warning);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin: 5px;
-        }
-
-        /* 新增：初始现金设置模态框样式 */
         .cash-setup-modal {
             position: fixed;
             top: 0;
@@ -519,46 +513,6 @@
             margin-bottom: 25px;
         }
 
-        .cash-option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .cash-option input[type="radio"] {
-            width: 20px;
-            height: 20px;
-        }
-
-        .cash-option label {
-            font-size: 1.1rem;
-            cursor: pointer;
-        }
-
-        .cash-input-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .cash-input-container label {
-            font-size: 1.1rem;
-            text-align: left;
-        }
-
-        .cash-input-container input {
-            padding: 12px;
-            border: 2px solid var(--light);
-            border-radius: 8px;
-            font-size: 1.2rem;
-            text-align: center;
-        }
-
-        .cash-input-container input:focus {
-            outline: none;
-            border-color: var(--secondary);
-        }
-
         .cash-options-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -586,6 +540,40 @@
             background: var(--secondary);
             color: white;
             border-color: var(--secondary);
+        }
+
+        .cash-input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .cash-input-container label {
+            font-size: 1.1rem;
+            text-align: left;
+        }
+
+        .cash-input-container input {
+            padding: 12px;
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .cash-input-container input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .achievement-badge {
+            display: inline-block;
+            background: var(--warning);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 5px;
         }
 
         footer {
@@ -641,7 +629,7 @@
     <!-- 主游戏界面（初始时隐藏） -->
     <div class="container" id="gameContainer" style="display: none;">
         <header>
-            <h1><i class="fas fa-chart-line"></i> 市场大亨（带初始现金设置）</h1>
+            <h1><i class="fas fa-chart-line"></i> 市场大亨（完整版）</h1>
             <p class="subtitle">模拟经营游戏 - 低买高卖，分析新闻，成为市场主宰！</p>
         </header>
 
@@ -695,7 +683,7 @@
                     </table>
                 </div>
 
-                <!-- 库存面板 -->
+                <!-- 库存面板（包含买入均价） -->
                 <div class="card">
                     <h2><i class="fas fa-warehouse"></i> 我的库存</h2>
                     <div id="inventory-list">
@@ -817,15 +805,15 @@
             cash: 10000,
             day: 1,
             reputation: 50,
-            inventory: {},
+            inventory: {},  // 改为对象，包含quantity和totalCost
             totalValue: 0,
             history: [],
             achievements: ['newbie_trader'],
             marketEvents: [],
             todaysNews: [],  // 今日新闻
             newsHistory: [],  // 新闻历史记录
-            initialCash: 10000, // 新增：记录初始现金
-            gameMode: '普通模式' // 新增：记录游戏模式
+            initialCash: 10000, // 记录初始现金
+            gameMode: '普通模式' // 记录游戏模式
         };
 
         // 商品数据
@@ -1225,9 +1213,12 @@
                 product.priceHistory = [product.basePrice];
             });
 
-            // 初始化库存
+            // 初始化库存（包含数量和总成本）
             products.forEach(product => {
-                gameState.inventory[product.id] = 0;
+                gameState.inventory[product.id] = {
+                    quantity: 0,
+                    totalCost: 0
+                };
             });
 
             // 生成初始新闻
@@ -1412,7 +1403,8 @@
         function calculateTotalAssets() {
             let inventoryValue = 0;
             products.forEach(product => {
-                inventoryValue += gameState.inventory[product.id] * product.currentPrice;
+                const inventory = gameState.inventory[product.id];
+                inventoryValue += inventory.quantity * product.currentPrice;
             });
             gameState.totalValue = gameState.cash + inventoryValue;
             return gameState.totalValue;
@@ -1431,7 +1423,11 @@
             }
 
             gameState.cash -= totalCost;
-            gameState.inventory[productId] += quantity;
+            
+            // 更新库存数量和总成本
+            const inventory = gameState.inventory[productId];
+            inventory.quantity += quantity;
+            inventory.totalCost += totalCost;
             
             // 记录交易历史
             addToHistory(`买入 ${quantity} 单位${product.name}，单价 ¥${product.currentPrice}`, 'success');
@@ -1447,7 +1443,9 @@
             const product = products.find(p => p.id === productId);
             if (!product) return false;
 
-            if (gameState.inventory[productId] < quantity) {
+            const inventory = gameState.inventory[productId];
+            
+            if (inventory.quantity < quantity) {
                 showNotification('库存不足，无法卖出！', 'error');
                 return false;
             }
@@ -1455,11 +1453,27 @@
             const totalValue = product.currentPrice * quantity;
             
             gameState.cash += totalValue;
-            gameState.inventory[productId] -= quantity;
+            
+            // 按比例减少成本（先进先出原则）
+            const avgCostPerUnit = inventory.quantity > 0 ? inventory.totalCost / inventory.quantity : 0;
+            const costToReduce = avgCostPerUnit * quantity;
+            
+            inventory.quantity -= quantity;
+            inventory.totalCost -= costToReduce;
+            
+            // 防止浮点数误差
+            if (Math.abs(inventory.quantity) < 0.01) {
+                inventory.quantity = 0;
+                inventory.totalCost = 0;
+            }
+            
+            // 计算盈亏
+            const profit = totalValue - costToReduce;
+            const profitText = profit >= 0 ? `盈利 ¥${profit.toFixed(0)}` : `亏损 ¥${Math.abs(profit).toFixed(0)}`;
             
             // 记录交易历史
-            addToHistory(`卖出 ${quantity} 单位${product.name}，单价 ¥${product.currentPrice}`, 'danger');
-            showNotification(`成功卖出 ${quantity} 单位${product.name}！`, 'success');
+            addToHistory(`卖出 ${quantity} 单位${product.name}，单价 ¥${product.currentPrice} (${profitText})`, 'danger');
+            showNotification(`成功卖出 ${quantity} 单位${product.name}！${profitText}`, 'success');
             
             updateUI();
             checkAchievements();
@@ -1589,7 +1603,10 @@
             
             // 重置库存
             products.forEach(product => {
-                gameState.inventory[product.id] = 0;
+                gameState.inventory[product.id] = {
+                    quantity: 0,
+                    totalCost: 0
+                };
             });
             
             // 重置价格
@@ -1634,6 +1651,8 @@
             productSelect.innerHTML = '';
             
             products.forEach(product => {
+                const inventory = gameState.inventory[product.id];
+                
                 // 市场表格行
                 const row = document.createElement('tr');
                 
@@ -1654,7 +1673,7 @@
                     <td><i class="fas ${product.icon}"></i> ${product.name}</td>
                     <td class="price ${priceClass}">¥${product.currentPrice.toLocaleString()}</td>
                     <td>${trendIcon}</td>
-                    <td>${gameState.inventory[product.id]}</td>
+                    <td>${inventory.quantity}</td>
                     <td>
                         <button class="btn btn-success btn-sm" onclick="quickBuy('${product.id}')" style="padding: 5px 10px; font-size: 0.9rem;">
                             <i class="fas fa-plus"></i>
@@ -1674,16 +1693,27 @@
                 productSelect.appendChild(option);
             });
             
-            // 更新库存列表
+            // 更新库存列表（包含买入均价）
             const inventoryList = document.getElementById('inventory-list');
             inventoryList.innerHTML = '';
             
             let totalInventoryValue = 0;
             products.forEach(product => {
-                const quantity = gameState.inventory[product.id];
+                const inventory = gameState.inventory[product.id];
+                const quantity = inventory.quantity;
+                
                 if (quantity > 0) {
                     const itemValue = quantity * product.currentPrice;
                     totalInventoryValue += itemValue;
+                    
+                    // 计算平均成本
+                    const avgCost = quantity > 0 ? inventory.totalCost / quantity : 0;
+                    const avgCostDisplay = quantity > 0 ? `¥${Math.round(avgCost).toLocaleString()}` : '--';
+                    
+                    // 计算盈亏
+                    const profit = itemValue - inventory.totalCost;
+                    const profitClass = profit >= 0 ? 'success' : 'danger';
+                    const profitText = profit >= 0 ? `+¥${profit.toFixed(0)}` : `-¥${Math.abs(profit).toFixed(0)}`;
                     
                     const item = document.createElement('div');
                     item.className = 'inventory-item';
@@ -1691,9 +1721,13 @@
                         <div class="inventory-name">
                             <i class="fas ${product.icon}"></i> ${product.name}
                         </div>
-                        <div style="display: flex; gap: 20px;">
+                        <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
                             <div class="inventory-qty">${quantity} 单位</div>
-                            <div class="inventory-value">¥${itemValue.toLocaleString()}</div>
+                            <div class="inventory-avg-cost">买入均价: ${avgCostDisplay}</div>
+                            <div class="inventory-value">当前价值: ¥${itemValue.toLocaleString()}</div>
+                            <div style="color: var(--${profitClass}); font-weight: 500;">
+                                盈亏: ${profitText}
+                            </div>
                         </div>
                     `;
                     inventoryList.appendChild(item);
@@ -1809,7 +1843,7 @@
         // 快速卖出
         function quickSell(productId) {
             const product = products.find(p => p.id === productId);
-            if (product && gameState.inventory[productId] > 0) {
+            if (product && gameState.inventory[productId].quantity > 0) {
                 document.getElementById('product-select').value = productId;
                 updateEstimatedPrice();
                 document.getElementById('sell-btn').click();
